@@ -1,0 +1,40 @@
+
+using UnityEngine;
+
+using PlanetAttack;
+
+namespace PlanetAttack {
+
+    public class GameBoardUtils {
+
+        public static void GeneratePlanets(int planetsCount = 12)
+        {
+            for (int i = 0; i < planetsCount; i++)
+            {
+                Transform p = GameUtils.GeneratePlanet();
+                p.gameObject.name += " " + i;
+                ArrangePlanetInSpace(p);
+            }
+        }
+
+        public static void CleanupPlanetsStats() {}
+
+        public static void RandomizePlanetsInSpace() {
+            foreach(GameObject planet in GameUtils.GetAllPlanets()) {
+                ArrangePlanetInSpace(planet.transform);
+                GameUtils.RandomizePlanetMaterials(planet.transform);
+            }
+        }
+
+        private static void ArrangePlanetInSpace(Transform planet) {
+            do {
+                float margin = 2;
+                float x = (Camera.main.sensorSize.x / 2) - margin;
+                float y = (Camera.main.sensorSize.y / 2) - margin;
+                planet.SetPositionAndRotation(Utils.GetRandomVectorInRange(-y, y, -x, x), Quaternion.Euler(0, Utils.GetRandomFloatBetween(0, 360), 0));
+                var scale = Utils.GetRandomFloatBetween(1.5f, 3);
+                planet.localScale = new Vector3(scale, scale, scale);
+            } while (GameUtils.CheckCollisionWithOtherPlanets(planet.gameObject));
+        }
+    }
+}
