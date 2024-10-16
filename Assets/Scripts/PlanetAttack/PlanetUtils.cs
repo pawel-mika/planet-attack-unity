@@ -1,16 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using PlanetAttack;
+using PlanetAttack.ThePlanet;
 using System.Linq;
-using Unity.VisualScripting;
-using System;
 
 namespace PlanetAttack
 {
     public class PlanetUtils
     {
+        // deprecated
         public static Transform GeneratePGPlanet()
         {
             Transform newPlanet = UnityEngine.Object.Instantiate(Resources.Load<Transform>("Solid Planet"));
@@ -18,20 +15,22 @@ namespace PlanetAttack
             PGSolidPlanet planet = newPlanet.GetComponent<PGSolidPlanet>();
             planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
             planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
+            // RandomizePlanetMaterials(newPlanet);
+            return newPlanet;
+        }
+
+        public static MainPlanet GeneratePlanet() {
+            MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
+            newPlanet.gameObject.name = newPlanet.gameObject.name.Replace("(Clone)", "");
+            PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
+            planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
+            planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
             RandomizePlanetMaterials(newPlanet);
             return newPlanet;
         }
 
-        public static Transform GeneratePlanet() {
-            int planetsCount = GetAllPlanets("ThePlanet").Count();
-            MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
-            newPlanet.gameObject.name = newPlanet.gameObject.name.Replace("(Clone)", " " + planetsCount);
-            RandomizePlanetMaterials(newPlanet.planetTransform);
-            return newPlanet.planetTransform;
-        }
-
-        public static void RandomizePlanetMaterials(Transform planetTransform) {
-            PGSolidPlanet planet = planetTransform.GetComponent<PGSolidPlanet>();
+        public static void RandomizePlanetMaterials(MainPlanet mainPlanet) {
+            PGSolidPlanet planet = mainPlanet.Planet.GetComponent<PGSolidPlanet>();
             planet.planetMaterial.SetColor("_AtmosphereColor", new Color(Utils.GetRandomFloatBetween(0.7f, 1f), Utils.GetRandomFloatBetween(0.7f, 1f), Utils.GetRandomFloatBetween(0.5f, 1f), Utils.GetRandomFloatBetween(0f, 0.2f)));
             planet.planetMaterial.SetFloat("_SeaLevel", Utils.GetRandomFloatBetween(0, 1));
             planet.planetMaterial.SetColor("_SeaColor", new Color(Utils.GetRandomFloatBetween(0, 0.1f), Utils.GetRandomFloatBetween(0.25f, 0.5f), Utils.GetRandomFloatBetween(0.5f, 0.8f)));
@@ -39,9 +38,9 @@ namespace PlanetAttack
             planet.planetMaterial.SetFloat("_MountainLevel", Utils.GetRandomFloatBetween(0, 1));
         }
 
-        public static void RemoveAllPlanets()
+        public static void RemoveAllThePlanets()
         {
-            foreach(GameObject gameObject in GetAllPlanets()) {
+            foreach(MainPlanet gameObject in GetAllThePlanets()) {
                 GameObject.DestroyImmediate(gameObject);
             }
         }
@@ -53,7 +52,7 @@ namespace PlanetAttack
             objCollider.enabled = false;
             objCollider.enabled = true;
 
-            Collider[] touching = Physics.OverlapSphere(objCollider.bounds.center, objCollider.radius * 3);
+            Collider[] touching = Physics.OverlapSphere(objCollider.bounds.center, objCollider.radius);
             foreach (Collider touch in touching)
             {
                 //avoid detecting itself, detect only other planets (same gameobject type)
@@ -68,6 +67,10 @@ namespace PlanetAttack
 
         public static IEnumerable<GameObject> GetAllPlanets(string name = "Solid Planet") {
             return GameObject.FindObjectsOfType<GameObject>().Where((o) => o.name.Contains(name));
+        }
+
+        public static IEnumerable<MainPlanet> GetAllThePlanets(string name = "ThePlanet") {
+            return GameObject.FindObjectsOfType<MainPlanet>().Where((o) => o.name.Contains(name));
         }
 
     }

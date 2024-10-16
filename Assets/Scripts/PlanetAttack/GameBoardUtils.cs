@@ -1,9 +1,9 @@
 
 using UnityEngine;
+using PlanetAttack.ThePlanet;
 
-using PlanetAttack;
-
-namespace PlanetAttack {
+namespace PlanetAttack
+{
 
     public class GameBoardUtils {
 
@@ -11,7 +11,7 @@ namespace PlanetAttack {
         {
             for (int i = 0; i < planetsCount; i++)
             {
-                Transform p = PlanetUtils.GeneratePlanet();
+                MainPlanet p = PlanetUtils.GeneratePlanet();
                 p.gameObject.name += " " + i;
                 ArrangePlanetInSpace(p);
             }
@@ -20,20 +20,20 @@ namespace PlanetAttack {
         public static void CleanupPlanetsStats() {}
 
         public static void RandomizePlanetsInSpace() {
-            foreach(GameObject planet in PlanetUtils.GetAllPlanets()) {
-                ArrangePlanetInSpace(planet.transform);
-                PlanetUtils.RandomizePlanetMaterials(planet.transform);
+            foreach(MainPlanet planet in PlanetUtils.GetAllThePlanets()) {
+                ArrangePlanetInSpace(planet);
+                PlanetUtils.RandomizePlanetMaterials(planet);
             }
         }
 
-        private static void ArrangePlanetInSpace(Transform planet) {
+        private static void ArrangePlanetInSpace(MainPlanet planet) {
             do {
                 float margin = 2;
                 float x = (Camera.main.sensorSize.x / 2) - margin;
                 float y = (Camera.main.sensorSize.y / 2) - margin;
-                planet.SetPositionAndRotation(Utils.GetRandomVectorInRange(-y, y, -x, x), Quaternion.Euler(0, Utils.GetRandomFloatBetween(0, 360), 0));
+                planet.transform.position = Utils.GetRandomVectorInRange(-y, y, -x, x);
                 var scale = Utils.GetRandomFloatBetween(1.5f, 3);
-                planet.localScale = new Vector3(scale, scale, scale);
+                planet.transform.localScale = new Vector3(scale, scale, scale);
             } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject));
         }
     }

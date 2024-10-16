@@ -1,36 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MainPlanet : MonoBehaviour
+namespace PlanetAttack.ThePlanet
 {
-    public float rotationPerSec = 0.05f;
-    private float rotationSpeed = 1f * 360f;
-
-    public Transform planetTransform;
-    // Start is called before the first frame update
-
-    void Start()
+    public class MainPlanet : MonoBehaviour
     {
-        planetTransform = this.transform.Find("Main Planet");
-        PGSolidPlanet pgSolidPlanet = planetTransform.GetComponent<PGSolidPlanet>();
-        pgSolidPlanet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
-        pgSolidPlanet.RandomizePlanet(true);
-
-        this.SetRotationPerSec(0.1f);
-        Debug.Log(string.Format("Rotation speed: {0}", rotationSpeed));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(planetTransform) {
-            planetTransform.Rotate(Vector3.up, this.rotationSpeed * Time.deltaTime);
+        private float rotationPerSec = 0.05f;
+        public float RotationPerSec
+        {
+            get { return rotationPerSec; }
+            set
+            {
+                rotationPerSec = value;
+                rotationSpeed = rotationPerSec * 360f;
+            }
         }
-    }
+        private float rotationSpeed = 1f * 360f;
 
-    void SetRotationPerSec(float rps) {
-        this.rotationPerSec = rps;
-        this.rotationSpeed = this.rotationPerSec * 360f;
+        private int ships = 0;
+        public int Ships
+        {
+            get { return ships; }
+            set { ships = value; }
+        }
+
+        private int minerals = 0;
+        public int Minerals
+        {
+            get { return minerals; }
+            set { minerals = value; }
+        }
+        
+        private int food = 0;
+        public int Food
+        {
+            get { return food; }
+            set { food = value; }
+        }
+        
+        
+        public GameObject Planet;
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            PGSolidPlanet pgSolidPlanet = Planet.GetComponent<PGSolidPlanet>();
+            pgSolidPlanet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
+            pgSolidPlanet.RandomizePlanet(true);
+            this.RotationPerSec = 0.1f;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            Planet.transform.Rotate(Vector3.up, this.rotationSpeed * Time.deltaTime);
+        }
     }
 }
