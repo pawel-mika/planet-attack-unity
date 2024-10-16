@@ -11,7 +11,7 @@ namespace PlanetAttack {
         {
             for (int i = 0; i < planetsCount; i++)
             {
-                Transform p = GameUtils.GeneratePlanet();
+                Transform p = PlanetUtils.GeneratePlanet();
                 p.gameObject.name += " " + i;
                 ArrangePlanetInSpace(p);
             }
@@ -20,9 +20,9 @@ namespace PlanetAttack {
         public static void CleanupPlanetsStats() {}
 
         public static void RandomizePlanetsInSpace() {
-            foreach(GameObject planet in GameUtils.GetAllPlanets()) {
+            foreach(GameObject planet in PlanetUtils.GetAllPlanets()) {
                 ArrangePlanetInSpace(planet.transform);
-                GameUtils.RandomizePlanetMaterials(planet.transform);
+                PlanetUtils.RandomizePlanetMaterials(planet.transform);
             }
         }
 
@@ -34,7 +34,7 @@ namespace PlanetAttack {
                 planet.SetPositionAndRotation(Utils.GetRandomVectorInRange(-y, y, -x, x), Quaternion.Euler(0, Utils.GetRandomFloatBetween(0, 360), 0));
                 var scale = Utils.GetRandomFloatBetween(1.5f, 3);
                 planet.localScale = new Vector3(scale, scale, scale);
-            } while (GameUtils.CheckCollisionWithOtherPlanets(planet.gameObject));
+            } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject));
         }
     }
 }
