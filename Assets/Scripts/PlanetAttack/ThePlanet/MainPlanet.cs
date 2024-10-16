@@ -40,6 +40,10 @@ namespace PlanetAttack.ThePlanet
         
         public GameObject Planet;
 
+        public TheLabel ShipsLabel;
+        public TheLabel MineralsLabel;
+        public TheLabel FoodLabel;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -47,6 +51,10 @@ namespace PlanetAttack.ThePlanet
             pgSolidPlanet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
             pgSolidPlanet.RandomizePlanet(true);
             this.RotationPerSec = 0.1f;
+
+            ShipsLabel.LabelText = "" + Utils.GetRandomInt(0, 128);
+            MineralsLabel.LabelText = "" + Utils.GetRandomInt(0, 128);
+            FoodLabel.LabelText = "" + Utils.GetRandomInt(0, 128);
         }
 
         // Update is called once per frame

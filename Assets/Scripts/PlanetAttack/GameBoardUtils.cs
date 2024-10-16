@@ -32,7 +32,7 @@ namespace PlanetAttack
                 float x = (Camera.main.sensorSize.x / 2) - margin;
                 float y = (Camera.main.sensorSize.y / 2) - margin;
                 planet.transform.position = Utils.GetRandomVectorInRange(-y, y, -x, x);
-                var scale = Utils.GetRandomFloatBetween(1.5f, 3);
+                var scale = Utils.GetRandomFloat(1.5f, 3);
                 planet.transform.localScale = new Vector3(scale, scale, scale);
             } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject));
         }

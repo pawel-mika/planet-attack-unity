@@ -31,11 +31,11 @@ namespace PlanetAttack
 
         public static void RandomizePlanetMaterials(MainPlanet mainPlanet) {
             PGSolidPlanet planet = mainPlanet.Planet.GetComponent<PGSolidPlanet>();
-            planet.planetMaterial.SetColor("_AtmosphereColor", new Color(Utils.GetRandomFloatBetween(0.7f, 1f), Utils.GetRandomFloatBetween(0.7f, 1f), Utils.GetRandomFloatBetween(0.5f, 1f), Utils.GetRandomFloatBetween(0f, 0.2f)));
-            planet.planetMaterial.SetFloat("_SeaLevel", Utils.GetRandomFloatBetween(0, 1));
-            planet.planetMaterial.SetColor("_SeaColor", new Color(Utils.GetRandomFloatBetween(0, 0.1f), Utils.GetRandomFloatBetween(0.25f, 0.5f), Utils.GetRandomFloatBetween(0.5f, 0.8f)));
-            planet.planetMaterial.SetColor("_LandColor", new Color(Utils.GetRandomFloatBetween(0, 0.25f), Utils.GetRandomFloatBetween(0.2f, 0.5f), Utils.GetRandomFloatBetween(0.0f, 0.2f)));
-            planet.planetMaterial.SetFloat("_MountainLevel", Utils.GetRandomFloatBetween(0, 1));
+            planet.planetMaterial.SetColor("_AtmosphereColor", new Color(Utils.GetRandomFloat(0.7f, 1f), Utils.GetRandomFloat(0.7f, 1f), Utils.GetRandomFloat(0.5f, 1f), Utils.GetRandomFloat(0f, 0.2f)));
+            planet.planetMaterial.SetFloat("_SeaLevel", Utils.GetRandomFloat(0, 1));
+            planet.planetMaterial.SetColor("_SeaColor", new Color(Utils.GetRandomFloat(0, 0.1f), Utils.GetRandomFloat(0.25f, 0.5f), Utils.GetRandomFloat(0.5f, 0.8f)));
+            planet.planetMaterial.SetColor("_LandColor", new Color(Utils.GetRandomFloat(0, 0.25f), Utils.GetRandomFloat(0.2f, 0.5f), Utils.GetRandomFloat(0.0f, 0.2f)));
+            planet.planetMaterial.SetFloat("_MountainLevel", Utils.GetRandomFloat(0, 1));
         }
 
         public static void RemoveAllThePlanets()
