@@ -19,6 +19,19 @@ namespace PlanetAttack
             return newPlanet;
         }
 
+        // use this or just GeneratePlane?
+        public static MainPlanet GeneratePooledPlanet() {
+            GameObject goNewPlanet = ObjectPool.SharedInstance.GetPooledObject();
+            goNewPlanet.SetActive(true);
+            MainPlanet newPlanet = goNewPlanet.GetComponent<MainPlanet>();
+            newPlanet.gameObject.name = newPlanet.gameObject.name.Replace("(Clone)", "");
+            PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
+            planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
+            planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
+            RandomizePlanetMaterials(newPlanet);
+            return newPlanet;
+        }
+
         public static MainPlanet GeneratePlanet() {
             MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
             newPlanet.gameObject.name = newPlanet.gameObject.name.Replace("(Clone)", "");
@@ -31,11 +44,11 @@ namespace PlanetAttack
 
         public static void RandomizePlanetMaterials(MainPlanet mainPlanet) {
             PGSolidPlanet planet = mainPlanet.Planet.GetComponent<PGSolidPlanet>();
-            planet.planetMaterial.SetColor("_AtmosphereColor", new Color(Utils.GetRandomFloatBetween(0.7f, 1f), Utils.GetRandomFloatBetween(0.7f, 1f), Utils.GetRandomFloatBetween(0.5f, 1f), Utils.GetRandomFloatBetween(0f, 0.2f)));
-            planet.planetMaterial.SetFloat("_SeaLevel", Utils.GetRandomFloatBetween(0, 1));
-            planet.planetMaterial.SetColor("_SeaColor", new Color(Utils.GetRandomFloatBetween(0, 0.1f), Utils.GetRandomFloatBetween(0.25f, 0.5f), Utils.GetRandomFloatBetween(0.5f, 0.8f)));
-            planet.planetMaterial.SetColor("_LandColor", new Color(Utils.GetRandomFloatBetween(0, 0.25f), Utils.GetRandomFloatBetween(0.2f, 0.5f), Utils.GetRandomFloatBetween(0.0f, 0.2f)));
-            planet.planetMaterial.SetFloat("_MountainLevel", Utils.GetRandomFloatBetween(0, 1));
+            planet.planetMaterial.SetColor("_AtmosphereColor", new Color(Random.Range(0.7f, 1f), Random.Range(0.7f, 1f), Random.Range(0.5f, 1f), Random.Range(0f, 0.2f)));
+            planet.planetMaterial.SetFloat("_SeaLevel", Random.Range(0f, 1f));
+            planet.planetMaterial.SetColor("_SeaColor", new Color(Random.Range(0f, 0.1f), Random.Range(0.25f, 0.5f), Random.Range(0.5f, 0.8f)));
+            planet.planetMaterial.SetColor("_LandColor", new Color(Random.Range(0f, 0.25f), Random.Range(0.2f, 0.5f), Random.Range(0.0f, 0.2f)));
+            planet.planetMaterial.SetFloat("_MountainLevel", Random.Range(0f, 1f));
         }
 
         public static void RemoveAllThePlanets()
