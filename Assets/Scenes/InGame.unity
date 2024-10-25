@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 673289925}
   m_Layer: 0
   m_Name: PlanetsBoardCamera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6774,6 +6774,7 @@ RectTransform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 673289926}
   - {fileID: 1740511523}
   - {fileID: 705507995}
   - {fileID: 1466581621}
@@ -6781,4 +6782,3 @@ SceneRoots:
   - {fileID: 1459615918}
   - {fileID: 1652381222}
   - {fileID: 2058309743}
-  - {fileID: 673289926}

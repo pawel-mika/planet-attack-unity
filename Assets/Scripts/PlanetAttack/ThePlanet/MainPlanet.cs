@@ -1,4 +1,8 @@
+using System;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace PlanetAttack.ThePlanet
 {
@@ -29,16 +33,19 @@ namespace PlanetAttack.ThePlanet
             get { return minerals; }
             set { minerals = value; }
         }
-        
+
         private int food = 0;
         public int Food
         {
             get { return food; }
             set { food = value; }
         }
-        
-        
+
+
         public GameObject Planet;
+
+        public GameObject PlayerPlanetHalo;
+        public GameObject EnemyPlanetHalo;
 
         public TheLabel ShipsLabel;
         public TheLabel MineralsLabel;
@@ -52,15 +59,41 @@ namespace PlanetAttack.ThePlanet
             pgSolidPlanet.RandomizePlanet(true);
             this.RotationPerSec = 0.1f;
 
-            ShipsLabel.LabelText = "" + Utils.GetRandomInt(0, 128);
-            MineralsLabel.LabelText = "" + Utils.GetRandomInt(0, 128);
-            FoodLabel.LabelText = "" + Utils.GetRandomInt(0, 128);
+            ShipsLabel.LabelText = "" + Random.Range(0, 128);
+            MineralsLabel.LabelText = "" + Random.Range(0, 128);
+            FoodLabel.LabelText = "" + Random.Range(0, 128);
         }
 
         // Update is called once per frame
         void Update()
         {
             Planet.transform.Rotate(Vector3.up, this.rotationSpeed * Time.deltaTime);
+            CheckClicked();
+        }
+
+        private void CheckClicked()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit raycastHit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out raycastHit, 100f))
+                {
+                    if (raycastHit.transform != null)
+                    {
+                        if (raycastHit.transform.gameObject.name == name)
+                        {
+                            PlayerPlanetHalo.SetActive(!(PlayerPlanetHalo.activeSelf));
+                        }
+                    }
+                }
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawRay(ray.origin, ray.direction, Color.magenta);
         }
     }
 }
