@@ -137,7 +137,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 667da4414a8e743719c9fd1f5befcb20, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -192,11 +192,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f2130abbafc104c99c3d0f08fd9342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetMaterial: {fileID: 0}
-  noiseScale: 1.1129925
-  noisePersistence: 0.56689453
-  seed: 66376
-  randomizedSeed: -76.48
+  planetMaterial: {fileID: 2100000, guid: 667da4414a8e743719c9fd1f5befcb20, type: 2}
+  noiseScale: 4.8627677
+  noisePersistence: 0.44749957
+  seed: -29368
+  randomizedSeed: 40.69
   resolution: 1
   filterMode: 1
   anisotropicLevel: 5
@@ -278,6 +278,27 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LabelMinerals
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1725650213, guid: ec8efae5cee5b4252aba54879b931a24,
+        type: 3}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: c6ab4d42b3310fe4c860c75eba7d6f3e, type: 2}
+    - target: {fileID: 7996635004879152618, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -380,6 +401,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: LabelFood
       objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1880565909, guid: ec8efae5cee5b4252aba54879b931a24,
+        type: 3}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: c6ab4d42b3310fe4c860c75eba7d6f3e, type: 2}
+    - target: {fileID: 7996635004879152618, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -480,6 +537,62 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LabelShips
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1930070030, guid: ec8efae5cee5b4252aba54879b931a24,
+        type: 3}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Maskable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: c6ab4d42b3310fe4c860c75eba7d6f3e, type: 2}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_FillCenter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564172967047515003, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996635004879152618, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

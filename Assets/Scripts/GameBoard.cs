@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class GameBoard : MonoBehaviour
 {
     Color inMenuColor = new(1, 1, 1, 1);
-    Color inGameColor = new(1, 1, 1, 0.5f);
+    Color inGameColor = new(1, 1, 1, 0.25f);
     Color bgColorTo = new(1, 1, 1, 1);
 
     // Start is called before the first frame update

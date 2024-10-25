@@ -19,6 +19,19 @@ namespace PlanetAttack
             return newPlanet;
         }
 
+        // use this or just GeneratePlane?
+        public static MainPlanet GeneratePooledPlanet() {
+            GameObject goNewPlanet = ObjectPool.SharedInstance.GetPooledObject();
+            goNewPlanet.SetActive(true);
+            MainPlanet newPlanet = goNewPlanet.GetComponent<MainPlanet>();
+            newPlanet.gameObject.name = newPlanet.gameObject.name.Replace("(Clone)", "");
+            PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
+            planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
+            planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
+            RandomizePlanetMaterials(newPlanet);
+            return newPlanet;
+        }
+
         public static MainPlanet GeneratePlanet() {
             MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
             newPlanet.gameObject.name = newPlanet.gameObject.name.Replace("(Clone)", "");
