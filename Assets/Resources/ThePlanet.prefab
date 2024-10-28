@@ -55,6 +55,7 @@ MonoBehaviour:
   ShipsLabel: {fileID: 718627395693853471}
   MineralsLabel: {fileID: 3044020247536778271}
   FoodLabel: {fileID: 2556561784619671930}
+  period: 1
 --- !u!135 &7416500668787197312
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -138,6 +139,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

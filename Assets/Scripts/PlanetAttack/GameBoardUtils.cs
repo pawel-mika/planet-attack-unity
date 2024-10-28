@@ -31,6 +31,13 @@ namespace PlanetAttack
             }
         }
 
+        public static void InitializePlanetsState() {
+            foreach (MainPlanet planet in PlanetUtils.GetAllThePlanets())
+            {
+                planet.InitializePlanetState();
+            }
+        }
+
         private static void ArrangePlanetInSpace(MainPlanet planet)
         {
             int antiInfLoopCounter = 10;

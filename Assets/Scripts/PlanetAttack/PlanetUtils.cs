@@ -71,7 +71,7 @@ namespace PlanetAttack
                 //avoid detecting itself, detect only other planets (same gameobject type)
                 if (touch.gameObject != obj && touch.gameObject.GetType().Equals(obj.GetType()))
                 {
-                    Debug.Log(string.Format("{0} touching {1}", obj.name, touch.gameObject.name));
+                    // Debug.Log(string.Format("{0} touching {1}", obj.name, touch.gameObject.name));
                     return (true);
                 }
             }
@@ -79,11 +79,11 @@ namespace PlanetAttack
         }
 
         public static IEnumerable<GameObject> GetAllPlanets(string name = "Solid Planet") {
-            return GameObject.FindObjectsOfType<GameObject>().Where((o) => o.name.Contains(name));
+            return GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None).Where((o) => o.name.Contains(name));
         }
 
         public static IEnumerable<MainPlanet> GetAllThePlanets(string name = "ThePlanet") {
-            return GameObject.FindObjectsOfType<MainPlanet>().Where((o) => o.name.Contains(name));
+            return GameObject.FindObjectsByType<MainPlanet>(FindObjectsSortMode.None).Where((o) => o.name.Contains(name));
         }
 
     }
