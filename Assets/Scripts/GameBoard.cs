@@ -10,8 +10,6 @@ public class GameBoard : MonoBehaviour
 {
     void Start()
     {
-        GameBoardUtils.GeneratePlanets();
-
         Events.onGameStateChange.AddListener(GameStateChangeListener);
     }
 
@@ -19,8 +17,13 @@ public class GameBoard : MonoBehaviour
     {
         if (evt.Contains(Events.evtGameStart))
         {
+            GameBoardUtils.GeneratePlanets();
             GameBoardUtils.RandomizePlanetsInSpace();
             GameBoardUtils.InitializePlanetsState();
+        }
+
+        if (evt.Contains(Events.evtGameInMenu)) {
+            GameBoardUtils.CleanupBoard();
         }
     }
 

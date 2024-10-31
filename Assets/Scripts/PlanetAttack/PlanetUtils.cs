@@ -2,29 +2,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlanetAttack.ThePlanet;
 using System.Linq;
+using Unity.VisualScripting;
+using System.Net.NetworkInformation;
 
 namespace PlanetAttack
 {
     public class PlanetUtils
     {
-        // deprecated
-        public static Transform GeneratePGPlanet()
-        {
-            Transform newPlanet = UnityEngine.Object.Instantiate(Resources.Load<Transform>("Solid Planet"));
-            newPlanet.gameObject.name = newPlanet.gameObject.name.Replace("(Clone)", "");
-            PGSolidPlanet planet = newPlanet.GetComponent<PGSolidPlanet>();
-            planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
-            planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
-            // RandomizePlanetMaterials(newPlanet);
-            return newPlanet;
+        private static PlanetsPool GetPlanetsPool() {
+            GameObject mainMenu = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None).Where((o) => o.name == "MainMenu").ToArray()[0];
+            PlanetsPool op = mainMenu.GetComponent<PlanetsPool>();
+            return op;
         }
-
-        // use this or just GeneratePlane?
-        public static MainPlanet GeneratePooledPlanet() {
-            GameObject goNewPlanet = ObjectPool.SharedInstance.GetPooledObject();
-            goNewPlanet.SetActive(true);
-            MainPlanet newPlanet = goNewPlanet.GetComponent<MainPlanet>();
-            newPlanet.gameObject.name = newPlanet.gameObject.name.Replace("(Clone)", "");
+        
+        public static MainPlanet GeneratePlanetOld() {
+            MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
+            newPlanet.gameObject.SetActive(true);
             PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
             planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
             planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
@@ -33,13 +26,10 @@ namespace PlanetAttack
         }
 
         public static MainPlanet GeneratePlanet() {
-            MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
-            newPlanet.gameObject.name = newPlanet.gameObject.name.Replace("(Clone)", "");
-            PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
-            planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
-            planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
-            RandomizePlanetMaterials(newPlanet);
-            return newPlanet;
+            MainPlanet mp = GetPlanetsPool().GetPooledObject();
+            mp.gameObject.SetActive(true);
+            RandomizePlanetMaterials(mp);
+            return mp;
         }
 
         public static void RandomizePlanetMaterials(MainPlanet mainPlanet) {
@@ -49,6 +39,12 @@ namespace PlanetAttack
             planet.planetMaterial.SetColor("_SeaColor", new Color(Random.Range(0f, 0.1f), Random.Range(0.25f, 0.5f), Random.Range(0.5f, 0.8f)));
             planet.planetMaterial.SetColor("_LandColor", new Color(Random.Range(0f, 0.25f), Random.Range(0.2f, 0.5f), Random.Range(0.0f, 0.2f)));
             planet.planetMaterial.SetFloat("_MountainLevel", Random.Range(0f, 1f));
+        }
+
+        public static void ReleasePlanetsToPool() {
+            foreach(MainPlanet mainPlanet in GetAllThePlanets()) {
+                GetPlanetsPool().ReleaseObjectToPool(mainPlanet);
+            }
         }
 
         public static void RemoveAllThePlanets()

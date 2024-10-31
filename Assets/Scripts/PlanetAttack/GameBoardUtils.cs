@@ -2,6 +2,8 @@
 using UnityEngine;
 using PlanetAttack.ThePlanet;
 using UnityEditor;
+using System;
+using Random = UnityEngine.Random;
 
 namespace PlanetAttack
 {
@@ -14,18 +16,17 @@ namespace PlanetAttack
             for (int i = 0; i < planetsCount; i++)
             {
                 MainPlanet p = PlanetUtils.GeneratePlanet();
-                p.gameObject.name += " " + i;
-                ArrangePlanetInSpace(p);
             }
         }
 
-        public static void CleanupPlanetsStats() { }
-
         public static void RandomizePlanetsInSpace()
         {
+            // first move all planets off screen?
+            // foreach (MainPlanet planet in PlanetUtils.GetAllThePlanets()) {
+            //     planet.transform.position += new Vector3(200, 200, 0);
+            // }
             foreach (MainPlanet planet in PlanetUtils.GetAllThePlanets())
             {
-                // ArrangePlanetInSpace(planet);
                 ArrangePlanetInCameraViewport(planet);
                 PlanetUtils.RandomizePlanetMaterials(planet);
             }
@@ -38,43 +39,13 @@ namespace PlanetAttack
             }
         }
 
-        private static void ArrangePlanetInSpace(MainPlanet planet)
-        {
-            int antiInfLoopCounter = 10;
-            Vector3 bounds = GetPlanetBounds();
-            // float margin = 2;
-            // float x = (Camera.main.sensorSize.x / 2) - margin;
-            // float y = (Camera.main.sensorSize.y / 2) - margin;
-            float x = bounds.x / 2;
-            float y = bounds.y / 2;
-            do
-            {
-                planet.transform.position = Utils.GetRandomVectorInRange(-y, y, -x, x);
-                var scale = Random.Range(1.5f, 3f);
-                planet.transform.localScale = new Vector3(scale, scale, scale);
-                antiInfLoopCounter--;
-            } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject) | antiInfLoopCounter > 0);
-        }
-
-        private static Vector3 GetPlanetBounds()
-        {
-            float aspect = (float)Screen.width / (float)Screen.height;
-            GameObject sceneCamObj = GameObject.Find("SceneCamera");
-            Camera camera = sceneCamObj.GetComponent<Camera>();
-
-            Vector3 ur = camera.ViewportToWorldPoint(new Vector3(1.92f, 1.08f, 48));
-            Debug.Log(ur);
-
-            return ur;
-        }
-
         private static void ArrangePlanetInCameraViewport(MainPlanet planet)
         {
             GameObject sceneCamObj = GameObject.Find("PlanetsBoardCamera");
             Camera camera = sceneCamObj.GetComponent<Camera>();
             float zMargin = 0;
             float z = camera.farClipPlane / 8;
-            int antiInfinityLoopCounter = 16;
+            int antiInfinityLoopCounter = 32;
             do
             {
                 Vector3 screenPosition = camera.ScreenToWorldPoint(
@@ -82,8 +53,16 @@ namespace PlanetAttack
                 planet.transform.position = screenPosition;
                 var scale = Random.Range(1.25f, 3f);
                 planet.transform.localScale = new Vector3(scale, scale, scale);
+                planet.GetComponent<SphereCollider>().radius = (scale / 2) + 0.25f;
                 antiInfinityLoopCounter--;
-            } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject) | antiInfinityLoopCounter > 0);
+            } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject) && antiInfinityLoopCounter > 0);
+            if(antiInfinityLoopCounter == 0) {
+                Debug.Log(String.Format("Giving up repositioning: {0}", planet.name));
+            }
+        }
+
+        public static void CleanupBoard() {
+            PlanetUtils.ReleasePlanetsToPool();
         }
     }
 }
