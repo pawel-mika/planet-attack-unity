@@ -103,3 +103,4 @@ Material:
     - _RimColor: {r: 0.049999982, g: 0.10999996, b: 0.19999996, a: 1}
     - _SeaColor: {r: 0, g: 0.35999998, b: 0.56999993, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7375942369359052478}
   - component: {fileID: 266663388144198967}
+  - component: {fileID: 7680252959305931361}
   - component: {fileID: 7416500668787197312}
   m_Layer: 0
   m_Name: ThePlanet
@@ -55,6 +56,20 @@ MonoBehaviour:
   ShipsLabel: {fileID: 718627395693853471}
   MineralsLabel: {fileID: 3044020247536778271}
   FoodLabel: {fileID: 2556561784619671930}
+  period: 1
+--- !u!114 &7680252959305931361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359836463145336503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb2b4097ba68214d96c02d6818013cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planet: {fileID: 266663388144198967}
 --- !u!135 &7416500668787197312
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -138,6 +153,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -256,6 +274,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563051809003813661, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 4822368288865070310, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
@@ -383,6 +406,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563051809003813661, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 4822368288865070310, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
@@ -585,6 +613,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.0000019073486
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563051809003813661, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 4822368288865070310, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
