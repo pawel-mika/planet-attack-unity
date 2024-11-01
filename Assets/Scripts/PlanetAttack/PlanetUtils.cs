@@ -14,7 +14,7 @@ namespace PlanetAttack
             PlanetsPool op = mainMenu.GetComponent<PlanetsPool>();
             return op;
         }
-        
+
         public static MainPlanet GeneratePlanetOld() {
             MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
             newPlanet.gameObject.SetActive(true);
@@ -80,6 +80,10 @@ namespace PlanetAttack
 
         public static IEnumerable<MainPlanet> GetAllThePlanets(string name = "ThePlanet") {
             return GameObject.FindObjectsByType<MainPlanet>(FindObjectsSortMode.None).Where((o) => o.name.Contains(name));
+        }
+
+        public static IEnumerable<MainPlanet> GetSelectedPlanets(GameController.EPlayerType owner) {
+            return GetAllThePlanets().Where((planet) => planet.PlanetOwner == owner && planet.PlanetState == GameController.EPlanetState.SELECTED);
         }
 
     }

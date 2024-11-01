@@ -1,15 +1,11 @@
 using System;
-using System.Drawing;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
 
 namespace PlanetAttack.ThePlanet
 {
-    public class MainPlanet : MonoBehaviour, IDragHandler, IInitializePotentialDragHandler
+    public class MainPlanet : MonoBehaviour
     {
         private float rotationPerSec = 0.05f;
         public float RotationPerSec
@@ -75,6 +71,9 @@ namespace PlanetAttack.ThePlanet
         private float nextActionTime = 0.0f;
         public float period = 1f;
 
+        public GameController.EPlanetState PlanetState = GameController.EPlanetState.NONE;
+        public GameController.EPlayerType PlanetOwner = GameController.EPlayerType.NONE;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -90,9 +89,13 @@ namespace PlanetAttack.ThePlanet
         void Update()
         {
             Planet.transform.Rotate(Vector3.up, this.rotationSpeed * Time.deltaTime);
-            CheckClicked();
+            // CheckClicked();
 
-            BlinkPlayerHalo();
+            if (PlanetState == GameController.EPlanetState.SELECTED)
+            {
+                BlinkPlayerHalo();  // separate later perhaps to 2 cases of ownerrs?
+                BlinkEnemyHalo();
+            }
 
             if (Time.time > nextActionTime)
             {
@@ -107,24 +110,24 @@ namespace PlanetAttack.ThePlanet
             }
         }
 
-        private void CheckClicked()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                RaycastHit raycastHit;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out raycastHit, 100f))
-                {
-                    if (raycastHit.transform != null)
-                    {
-                        if (raycastHit.transform.gameObject.name == name)
-                        {
-                            PlayerPlanetHalo.SetActive(!(PlayerPlanetHalo.activeSelf));
-                        }
-                    }
-                }
-            }
-        }
+        // private void CheckClicked()
+        // {
+        //     if (Input.GetMouseButtonDown(0))
+        //     {
+        //         RaycastHit raycastHit;
+        //         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //         if (Physics.Raycast(ray, out raycastHit, 100f))
+        //         {
+        //             if (raycastHit.transform != null)
+        //             {
+        //                 if (raycastHit.transform.gameObject.name == name)
+        //                 {
+        //                     PlayerPlanetHalo.SetActive(!(PlayerPlanetHalo.activeSelf));
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         private void OnDrawGizmos()
         {
@@ -134,45 +137,31 @@ namespace PlanetAttack.ThePlanet
 
         private void BlinkPlayerHalo()
         {
-            Material mp = PlayerPlanetHalo.GetComponent<Renderer>().material;
+            BlinkTheHalo(PlayerPlanetHalo);
+        }
+
+        private void BlinkEnemyHalo()
+        {
+            BlinkTheHalo(EnemyPlanetHalo);
+        }
+
+        private void BlinkTheHalo(GameObject go)
+        {
+            Material mp = go.GetComponent<Renderer>().material;
             float cp = 1f + (float)(Math.Sin(Utils.Sawtooth(Time.time, 1, 0f, 1f)) * 6f);
             mp.SetFloat("_Falloff", cp);
 
-            Transform tPlayer = PlayerPlanetHalo.transform;
+            Transform tPlayer = go.transform;
             float scale = 1f + (float)Math.Sin(Utils.Sawtooth(Time.time, 1, 0.25f, 1.25f));
             tPlayer.localScale = new Vector3(scale, scale, scale);
         }
 
-        Vector3 dragStartPoint;
+        private void ResetHalo(GameObject go) {
+            Material mp = go.GetComponent<Renderer>().material;
+            mp.SetFloat("_Falloff", 1);
 
-        public void OnBeginDrag()
-        {
-            dragStartPoint = transform.position;
-        }
-
-        public void OnDrag(PointerEventData eventData)
-        {
-            // Vector3 delta = eventData.pointerPressRaycast.worldPosition - eventData.pointerCurrentRaycast.worldPosition;
-            // Vector3 delta = eventData.pointerCurrentRaycast.worldPosition;
-            // Vector3 delta = Camera.main.WorldToViewportPoint(eventData.pointerPressRaycast.worldPosition) - Camera.main.WorldToViewportPoint(eventData.pointerCurrentRaycast.worldPosition);
-
-            // Vector3 delta = dragStartPoint - Camera.main.WorldToViewportPoint(eventData.pointerCurrentRaycast.worldPosition);
-            // delta.z = 0;
-            // Debug.Log(delta);
-            // transform.position += delta;
-
-            Ray R = Camera.main.ScreenPointToRay(Input.mousePosition); // Get the ray from mouse position
-            Vector3 PO = transform.position; // Take current position of this draggable object as Plane's Origin
-            Vector3 PN = -Camera.main.transform.forward; // Take current negative camera's forward as Plane's Normal
-            float t = Vector3.Dot(PO - R.origin, PN) / Vector3.Dot(R.direction, PN); // plane vs. line intersection in algebric form. It find t as distance from the camera of the new point in the ray's direction.
-            Vector3 P = R.origin + R.direction * t; // Find the new point.
-
-            transform.position = P;
-        }
-
-        public void OnInitializePotentialDrag(PointerEventData eventData)
-        {
-            eventData.useDragThreshold = false;
+            Transform tPlayer = go.transform;
+            tPlayer.localScale = new Vector3(1.25f, 1.25f, 1.25f);
         }
 
         private void HarvestFood()
@@ -209,6 +198,47 @@ namespace PlanetAttack.ThePlanet
 
             ShipCostMinerals = Random.Range(10f, 15f);
             ShipCostFood = Random.Range(10f, 15f);
+        }
+
+        public void SetPlanetState(GameController.EPlanetState state)
+        {
+            PlanetState = state;
+            RecalcStateAndOwnerChanges();
+        }
+
+        public void SetPlanetOwner(GameController.EPlayerType type)
+        {
+            PlanetOwner = type;
+            RecalcStateAndOwnerChanges();
+        }
+
+        private void RecalcStateAndOwnerChanges()
+        {
+            switch (PlanetState)
+            {
+                case GameController.EPlanetState.OWNED:
+                    ResetHalo(PlayerPlanetHalo);
+                    ResetHalo(EnemyPlanetHalo);
+                    switch (PlanetOwner)
+                    {
+                        case GameController.EPlayerType.PLAYER:
+                            PlayerPlanetHalo.SetActive(true);
+                            EnemyPlanetHalo.SetActive(false);
+                            break;
+                        case GameController.EPlayerType.ENEMY:
+                        case GameController.EPlayerType.AI:
+                            PlayerPlanetHalo.SetActive(false);
+                            EnemyPlanetHalo.SetActive(true);
+                            break;
+                        default:
+                            PlayerPlanetHalo.SetActive(true);
+                            EnemyPlanetHalo.SetActive(false);
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

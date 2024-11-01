@@ -41,7 +41,7 @@ namespace PlanetAttack
 
         private static void ArrangePlanetInCameraViewport(MainPlanet planet)
         {
-            GameObject sceneCamObj = GameObject.Find("PlanetsBoardCamera");
+            GameObject sceneCamObj = GameObject.Find("PlanetsBoardGuideCamera");
             Camera camera = sceneCamObj.GetComponent<Camera>();
             float zMargin = 0;
             float z = camera.farClipPlane / 8;

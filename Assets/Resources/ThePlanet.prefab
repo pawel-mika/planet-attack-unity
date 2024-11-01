@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7375942369359052478}
   - component: {fileID: 266663388144198967}
+  - component: {fileID: 7680252959305931361}
   - component: {fileID: 7416500668787197312}
   m_Layer: 0
   m_Name: ThePlanet
@@ -56,6 +57,19 @@ MonoBehaviour:
   MineralsLabel: {fileID: 3044020247536778271}
   FoodLabel: {fileID: 2556561784619671930}
   period: 1
+--- !u!114 &7680252959305931361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359836463145336503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb2b4097ba68214d96c02d6818013cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planet: {fileID: 266663388144198967}
 --- !u!135 &7416500668787197312
 SphereCollider:
   m_ObjectHideFlags: 0

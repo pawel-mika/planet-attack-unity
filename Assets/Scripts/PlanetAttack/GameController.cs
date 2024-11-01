@@ -6,6 +6,22 @@ using UnityEngine;
 
 public static class GameController
 {
+    public enum EPlayerType
+    {
+        NONE,
+        PLAYER,
+        ENEMY,
+        AI
+    }
+
+    public enum EPlanetState {
+        NONE,
+        OWNED,
+        SELECTED,
+        ATTACKED,
+        CONQUERED
+    }
+
     public enum EGameState
     {
         IN_MENU,

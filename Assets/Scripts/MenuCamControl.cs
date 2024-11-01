@@ -32,7 +32,7 @@ public class MenuCamControl : MonoBehaviour
             GameObject go = GameObject.FindGameObjectWithTag("MainMenu");
             SetTransform(go.transform);
             Events.onGameStateChange.Invoke(new string[] { Events.evtGameEnd });
-            
+
             GameController.GameState = GameController.EGameState.TRANSITION_TO_MENU;
         }
 
@@ -53,7 +53,7 @@ public class MenuCamControl : MonoBehaviour
     {
         currentMount = transform;
         travelling = true;
-        if (currentMount.gameObject.name.ContainsInsensitive("P_BoardGuide"))
+        if (currentMount.gameObject.name.ContainsInsensitive("PlanetsBoardGuideCamera"))
         {
             Events.onGameStateChange.Invoke(new string[] { Events.evtGameStart });
             GameController.GameState = GameController.EGameState.TRANSITION_TO_GAME;
