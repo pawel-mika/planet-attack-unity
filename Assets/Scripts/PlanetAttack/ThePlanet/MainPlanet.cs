@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using PlanetAttack.Enums;
 using UnityEngine;
 using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
@@ -56,6 +58,7 @@ namespace PlanetAttack.ThePlanet
 
         public GameObject PlayerPlanetHalo;
         public GameObject EnemyPlanetHalo;
+        public GameObject TargetPlanetMarker;
 
         public TheLabel ShipsLabel;
         public TheLabel MineralsLabel;
@@ -71,8 +74,10 @@ namespace PlanetAttack.ThePlanet
         private float nextActionTime = 0.0f;
         public float period = 1f;
 
-        public GameController.EPlanetState PlanetState = GameController.EPlanetState.NONE;
-        public GameController.EPlayerType PlanetOwner = GameController.EPlayerType.NONE;
+        public EPlanetState PlanetState = EPlanetState.NONE;
+        public EPlayerType PlanetOwner = EPlayerType.NONE;
+
+        public Vector3 DrawTarget;
 
         // Start is called before the first frame update
         void Start()
@@ -80,7 +85,7 @@ namespace PlanetAttack.ThePlanet
             PGSolidPlanet pgSolidPlanet = Planet.GetComponent<PGSolidPlanet>();
             pgSolidPlanet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
             pgSolidPlanet.RandomizePlanet(true);
-            this.RotationPerSec = 0.1f;
+            RotationPerSec = 0.1f;
 
             InitializePlanetState();
         }
@@ -91,7 +96,7 @@ namespace PlanetAttack.ThePlanet
             Planet.transform.Rotate(Vector3.up, this.rotationSpeed * Time.deltaTime);
             // CheckClicked();
 
-            if (PlanetState == GameController.EPlanetState.SELECTED)
+            if (PlanetState == EPlanetState.SELECTED)
             {
                 BlinkPlayerHalo();  // separate later perhaps to 2 cases of ownerrs?
                 BlinkEnemyHalo();
@@ -100,7 +105,7 @@ namespace PlanetAttack.ThePlanet
             if (Time.time > nextActionTime)
             {
                 nextActionTime += period;
-                if (GameController.GameState == GameController.EGameState.IN_GAME)
+                if (GameController.GameState == EGameState.IN_GAME)
                 {
                     // recalc every 1s or later get game level settings into account? (faster for higher level?) dunno yet
                     HarvestFood();
@@ -108,26 +113,9 @@ namespace PlanetAttack.ThePlanet
                     ManufactureShips();
                 }
             }
-        }
 
-        // private void CheckClicked()
-        // {
-        //     if (Input.GetMouseButtonDown(0))
-        //     {
-        //         RaycastHit raycastHit;
-        //         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //         if (Physics.Raycast(ray, out raycastHit, 100f))
-        //         {
-        //             if (raycastHit.transform != null)
-        //             {
-        //                 if (raycastHit.transform.gameObject.name == name)
-        //                 {
-        //                     PlayerPlanetHalo.SetActive(!(PlayerPlanetHalo.activeSelf));
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+            DrawLineToTarget();
+        }
 
         private void OnDrawGizmos()
         {
@@ -156,7 +144,8 @@ namespace PlanetAttack.ThePlanet
             tPlayer.localScale = new Vector3(scale, scale, scale);
         }
 
-        private void ResetHalo(GameObject go) {
+        private void ResetHalo(GameObject go)
+        {
             Material mp = go.GetComponent<Renderer>().material;
             mp.SetFloat("_Falloff", 1);
 
@@ -186,7 +175,13 @@ namespace PlanetAttack.ThePlanet
 
         public void InitializePlanetState()
         {
+            DrawTarget = transform.position;
+            PlanetOwner = EPlayerType.NONE;
+            PlanetState = EPlanetState.NONE;
+
             PlayerPlanetHalo.SetActive(false);
+            EnemyPlanetHalo.SetActive(false);
+            TargetPlanetMarker.SetActive(false);
 
             Ships = Random.Range(0, 128);
             Minerals = Random.Range(0, 512);
@@ -200,13 +195,13 @@ namespace PlanetAttack.ThePlanet
             ShipCostFood = Random.Range(10f, 15f);
         }
 
-        public void SetPlanetState(GameController.EPlanetState state)
+        public void SetPlanetState(EPlanetState state)
         {
             PlanetState = state;
             RecalcStateAndOwnerChanges();
         }
 
-        public void SetPlanetOwner(GameController.EPlayerType type)
+        public void SetPlanetOwner(EPlayerType type)
         {
             PlanetOwner = type;
             RecalcStateAndOwnerChanges();
@@ -216,17 +211,17 @@ namespace PlanetAttack.ThePlanet
         {
             switch (PlanetState)
             {
-                case GameController.EPlanetState.OWNED:
+                case EPlanetState.OWNED:
                     ResetHalo(PlayerPlanetHalo);
                     ResetHalo(EnemyPlanetHalo);
                     switch (PlanetOwner)
                     {
-                        case GameController.EPlayerType.PLAYER:
+                        case EPlayerType.PLAYER:
                             PlayerPlanetHalo.SetActive(true);
                             EnemyPlanetHalo.SetActive(false);
                             break;
-                        case GameController.EPlayerType.ENEMY:
-                        case GameController.EPlayerType.AI:
+                        case EPlayerType.ENEMY:
+                        case EPlayerType.AI:
                             PlayerPlanetHalo.SetActive(false);
                             EnemyPlanetHalo.SetActive(true);
                             break;
@@ -236,8 +231,25 @@ namespace PlanetAttack.ThePlanet
                             break;
                     }
                     break;
-                default:
+                case EPlanetState.POTENTIAL_TARGET:
+                    TargetPlanetMarker.SetActive(true);
                     break;
+                default:
+                    TargetPlanetMarker.SetActive(false);
+                    break;
+            }
+        }
+
+        private void DrawLineToTarget()
+        {
+            LineRenderer lr = GetComponent<LineRenderer>();
+            if (DrawTarget.normalized != transform.position.normalized)
+            {
+                lr.SetPosition(0, transform.position);
+                lr.SetPosition(1, DrawTarget);
+                // Debug.Log(String.Format("Draw from {0} to {1} for {2}", transform.position, DrawTarget, name));
+            } else {
+                lr.SetPositions(new List<Vector3>() { transform.position, transform.position }.ToArray());
             }
         }
     }

@@ -4,6 +4,7 @@ using PlanetAttack.ThePlanet;
 using System.Linq;
 using Unity.VisualScripting;
 using System.Net.NetworkInformation;
+using PlanetAttack.Enums;
 
 namespace PlanetAttack
 {
@@ -47,13 +48,6 @@ namespace PlanetAttack
             }
         }
 
-        public static void RemoveAllThePlanets()
-        {
-            foreach(MainPlanet gameObject in GetAllThePlanets()) {
-                GameObject.DestroyImmediate(gameObject);
-            }
-        }
-
         public static bool CheckCollisionWithOtherPlanets(GameObject obj)
         {
             SphereCollider objCollider = obj.GetComponent<SphereCollider>();
@@ -68,10 +62,10 @@ namespace PlanetAttack
                 if (touch.gameObject != obj && touch.gameObject.GetType().Equals(obj.GetType()))
                 {
                     // Debug.Log(string.Format("{0} touching {1}", obj.name, touch.gameObject.name));
-                    return (true);
+                    return true;
                 }
             }
-            return (false);
+            return false;
         }
 
         public static IEnumerable<GameObject> GetAllPlanets(string name = "Solid Planet") {
@@ -82,9 +76,18 @@ namespace PlanetAttack
             return GameObject.FindObjectsByType<MainPlanet>(FindObjectsSortMode.None).Where((o) => o.name.Contains(name));
         }
 
-        public static IEnumerable<MainPlanet> GetSelectedPlanets(GameController.EPlayerType owner) {
-            return GetAllThePlanets().Where((planet) => planet.PlanetOwner == owner && planet.PlanetState == GameController.EPlanetState.SELECTED);
+        public static IEnumerable<MainPlanet> GetSelectedPlanets(EPlayerType owner) {
+            return GetAllThePlanets().Where((planet) => planet.PlanetOwner == owner && planet.PlanetState == EPlanetState.SELECTED);
         }
+
+        public static IEnumerable<MainPlanet> GetPotentialTargetMarkedPlanets() {
+            return GetPlanetsInState(EPlanetState.POTENTIAL_TARGET);
+        }
+
+        public static IEnumerable<MainPlanet> GetPlanetsInState(EPlanetState state) {
+            return GetAllThePlanets().Where((planet) => planet.PlanetState == state);
+        }
+
 
     }
 }
