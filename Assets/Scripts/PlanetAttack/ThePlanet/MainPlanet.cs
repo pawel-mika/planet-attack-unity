@@ -75,7 +75,9 @@ namespace PlanetAttack.ThePlanet
         public float period = 1f;
 
         public EPlanetState PlanetState = EPlanetState.NONE;
+        private EPlanetState PreviousState = EPlanetState.NONE;
         public EPlayerType PlanetOwner = EPlayerType.NONE;
+        private EPlayerType PreviousOwner = EPlayerType.NONE;
 
         public Vector3 DrawTarget;
 
@@ -195,16 +197,23 @@ namespace PlanetAttack.ThePlanet
             ShipCostFood = Random.Range(10f, 15f);
         }
 
+        public void RevertPreviousState() {
+            SetPlanetState(PreviousState);
+        }
+
         public void SetPlanetState(EPlanetState state)
         {
+            PreviousState = PlanetState;
             PlanetState = state;
             RecalcStateAndOwnerChanges();
+            Debug.Log(String.Format("Set '{0}' state to: {1}", name, Enum.GetName(typeof(EPlanetState), state)));
         }
 
         public void SetPlanetOwner(EPlayerType type)
         {
             PlanetOwner = type;
             RecalcStateAndOwnerChanges();
+            Debug.Log(String.Format("Set '{0}' state to: {1}", name, Enum.GetName(typeof(EPlayerType), type)));
         }
 
         private void RecalcStateAndOwnerChanges()

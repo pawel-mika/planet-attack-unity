@@ -25,7 +25,8 @@ public class PlanetsController
 
     public void ClearAllPotentnialTargets() {
         foreach(MainPlanet planet in PlanetUtils.GetPotentialTargetMarkedPlanets()) {
-            planet.SetPlanetState(previousStates.GetValueOrDefault(planet, EPlanetState.NONE));
+            //planet.SetPlanetState(previousStates.GetValueOrDefault(planet, EPlanetState.NONE));
+            planet.RevertPreviousState();
         }
     }
 }
