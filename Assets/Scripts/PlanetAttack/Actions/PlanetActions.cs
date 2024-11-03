@@ -119,7 +119,7 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
         // DragPlanetToMousePosition();
         GameController.isDragging = true;
         dragTargetPoint = GetCurrentMousePositionInSpace();
-        // Debug.Log(String.Format("Dragging from: {0}", planet.name));
+        Debug.Log(String.Format("Dragging from: {0}", planet.name));
         // Debug.Log(String.Format("{0} {1} {2}", eventData.pointerClick?.name, eventData.pointerEnter?.name, eventData.pointerDrag?.name));
         // CheckPotentialTargetPlanet();
         CheckDragOverPlanet();

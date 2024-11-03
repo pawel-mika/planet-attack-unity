@@ -6,6 +6,9 @@ namespace PlanetAttack.Enums
         OWNED,
         SELECTED,
         POTENTIAL_TARGET,
+        TARGET,
+        POTENTIAL_TRANSFER,
+        TRANSFER,
         ATTACKED,
         CONQUERED
     }
