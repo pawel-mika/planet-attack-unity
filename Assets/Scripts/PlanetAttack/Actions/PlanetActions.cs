@@ -25,12 +25,14 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
     // Update is called once per frame
     void Update()
     {
-        if (GameController.isDragging && planet.PlanetState == EPlanetState.SELECTED)
+        if (GameController.isDragging && (planet.PlanetState == EPlanetState.SELECTED || planet.PlanetState == EPlanetState.OWNED))
         {
             DrawDragAttackActionArrows();
         }
 
         if (GameController.isDragging
+            && PlanetsController.dragStartPlanet 
+            && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER
             && PlanetsController.dragOverPlanet
             && PlanetsController.dragOverPlanet != PlanetsController.dragStartPlanet
             && PlanetsController.dragOverPlanet.PlanetState != EPlanetState.POTENTIAL_TARGET)
@@ -38,6 +40,7 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
             PlanetsController.dragOverPlanet.SetPlanetState(EPlanetState.POTENTIAL_TARGET);
         }
     }
+
 
     private void TestPlanetSelection()
     {
@@ -83,6 +86,10 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
             CancelDrawingDragAttackArrows();
             PlanetsController.ClearAllPotentnialTargets();
         }
+    }
+
+    public void OnMouseDrag() {
+        Debug.Log(String.Format("OnMouseDrag in: {0}", planet.name));
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -137,8 +144,9 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
 
     private void DrawDragAttackActionArrows()
     {
+        Debug.Log(String.Format("DrawDragAttackActionArrows in: {0}", planet.name));
         IEnumerable<MainPlanet> selectedPlanets = PlanetUtils.GetSelectedPlanets(EPlayerType.PLAYER);
-        if (selectedPlanets.Count() == 0)
+        if (selectedPlanets.Count() == 0 && PlanetsController.dragStartPlanet)
         {
             // single planet action
             PlanetsController.dragStartPlanet.DrawTarget = GetCurrentMousePositionInSpace();
@@ -156,6 +164,7 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
 
     private void CancelDrawingDragAttackArrows()
     {
+        Debug.Log(String.Format("CancelDrawingDragAttackArrows in: {0}", planet.name));
         foreach (MainPlanet p in PlanetUtils.GetAllThePlanets())
         {
             p.DrawTarget = p.transform.position;
