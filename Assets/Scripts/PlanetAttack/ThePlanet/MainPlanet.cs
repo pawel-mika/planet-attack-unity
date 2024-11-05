@@ -9,6 +9,8 @@ namespace PlanetAttack.ThePlanet
 {
     public class MainPlanet : MonoBehaviour
     {
+        private readonly GameController GameController = GameManager.GameController;
+        
         private float rotationPerSec = 0.05f;
         public float RotationPerSec
         {
@@ -89,7 +91,7 @@ namespace PlanetAttack.ThePlanet
             pgSolidPlanet.RandomizePlanet(true);
             RotationPerSec = 0.1f;
 
-            InitializePlanetState();
+            InitEmptyPlanetState();
         }
 
         // Update is called once per frame
@@ -175,11 +177,13 @@ namespace PlanetAttack.ThePlanet
             }
         }
 
-        public void InitializePlanetState()
+        public void InitEmptyPlanetState()
         {
             DrawTarget = transform.position;
             PlanetOwner = EPlayerType.NONE;
             PlanetState = EPlanetState.NONE;
+            PreviousOwner = EPlayerType.NONE;
+            PreviousState = EPlanetState.NONE;
 
             PlayerPlanetHalo.SetActive(false);
             EnemyPlanetHalo.SetActive(false);

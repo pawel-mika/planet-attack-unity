@@ -29,6 +29,7 @@ namespace PlanetAttack
         public static MainPlanet GeneratePlanet() {
             MainPlanet mp = GetPlanetsPool().GetPooledObject();
             mp.gameObject.SetActive(true);
+            mp.InitEmptyPlanetState();
             RandomizePlanetMaterials(mp);
             return mp;
         }
@@ -87,7 +88,5 @@ namespace PlanetAttack
         public static IEnumerable<MainPlanet> GetPlanetsInState(EPlanetState state) {
             return GetAllThePlanets().Where((planet) => planet.PlanetState == state);
         }
-
-
     }
 }

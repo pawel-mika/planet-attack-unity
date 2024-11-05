@@ -8,6 +8,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class MenuCamControl : MonoBehaviour
 {
+    private readonly GameController GameController = GameManager.GameController;
     public Transform currentMount;
     public float speedFactor = 0.0f;
 

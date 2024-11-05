@@ -7,16 +7,23 @@ using PlanetAttack.ThePlanet;
 using UnityEditor;
 using UnityEngine;
 
-public static partial class GameController
+public class GameController
 {
-
     // public Gamelevel = {easy: { bonusRangeMin: 1, bonusRangeMax: 3}, ..., brainiac: { bonusRangeMin: 0.25, bonusRangeMax: 1.5}};
+    private static readonly Lazy<GameController> instance = new(() => new GameController());
 
-    public static bool isDragging = false;
+    private GameController()
+    {
+        Debug.Log("GameController created");
+    }
 
+    // Public static method to access the Singleton instance.
+    public static GameController Instance => instance.Value;
 
-    private static EGameState mGameState = EGameState.UNKNOWN;
-    public static EGameState GameState
+    public bool isDragging = false;
+
+    private EGameState mGameState = EGameState.UNKNOWN;
+    public EGameState GameState
     {
         get { return mGameState; }
         set

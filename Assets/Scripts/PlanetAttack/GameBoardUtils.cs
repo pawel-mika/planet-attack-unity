@@ -31,7 +31,7 @@ namespace PlanetAttack
         public static void InitializePlanetsState() {
             foreach (MainPlanet planet in PlanetUtils.GetAllThePlanets())
             {
-                planet.InitializePlanetState();
+                planet.InitEmptyPlanetState();
             }
         }
 

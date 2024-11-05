@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using PlanetAttack;
 using PlanetAttack.Enums;
 using PlanetAttack.ThePlanet;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class PlanetsController
 {
@@ -11,7 +14,7 @@ public class PlanetsController
 
     private PlanetsController()
     {
-        Console.WriteLine("Singleton instance created.");
+        Debug.Log("PlanetsController created");
     }
 
     // Public static method to access the Singleton instance.
@@ -29,4 +32,8 @@ public class PlanetsController
             planet.RevertPreviousState();
         }
     }
+
+    // public MainPlanet GetPlanetUnderCursor() {
+        
+    // }
 }
