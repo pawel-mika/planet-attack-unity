@@ -4,11 +4,9 @@ using System.Linq;
 using PlanetAttack;
 using PlanetAttack.Enums;
 using PlanetAttack.ThePlanet;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDragHandler
+public class PlanetActions : MonoBehaviour 
 {
     private readonly GameController GameController = GameManager.GameController;
     private readonly PlanetsController PlanetsController = GameManager.PlanetsController;
@@ -25,13 +23,7 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
     // Update is called once per frame
     void Update()
     {
-        if (GameController.isDragging && (planet.PlanetState == EPlanetState.SELECTED || planet.PlanetState == EPlanetState.OWNED))
-        {
-            DrawDragAttackActionArrows();
-        }
-
-        if (GameController.isDragging
-            && PlanetsController.dragStartPlanet 
+        if (PlanetsController.dragStartPlanet
             && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER
             && PlanetsController.dragOverPlanet
             && PlanetsController.dragOverPlanet != PlanetsController.dragStartPlanet
@@ -48,9 +40,6 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
         if (mp && mp.name == name)
         {
             Debug.Log(String.Format("TestPlanetSelection: {0}, isDragging: {1}, dragOverPlanet: {2}", planet.name, GameController.isDragging, PlanetsController.dragOverPlanet));
-        }
-        if (mp && mp.name == name && !GameController.isDragging)
-        {
             planet.SetPlanetOwner(EPlayerType.PLAYER);
             planet.SetPlanetState(planet.PlanetState == EPlanetState.OWNED ? EPlanetState.SELECTED : EPlanetState.OWNED);
         }
@@ -63,7 +52,8 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
         PlanetsController.dragOverPlanet = GetPlanetUnderCursor();
     }
 
-    private void ClearDragOverPlanet() {
+    private void ClearDragOverPlanet()
+    {
         PlanetsController.dragOverPlanet?.RevertPreviousState();
         PlanetsController.dragOverPlanet = null;
     }
@@ -77,25 +67,24 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
     {
         Debug.Log(String.Format("OnMouseUp in: {0}", planet.name));
         TestPlanetSelection();
-        GameController.isDragging = false;
         PlanetsController.dragStartPlanet = null;
         ActionsController.dragStartPoint = Vector3.zero;
         ActionsController.dragTargetPoint = Vector3.zero;
         if (!GetPlanetUnderCursor())
         {
-            CancelDrawingDragAttackArrows();
+            ClearDrawTargetAttackArrows();
             PlanetsController.ClearAllPotentnialTargets();
         }
     }
 
-    public void OnMouseDrag() {
+    public void OnMouseDrag()
+    {
         Debug.Log(String.Format("OnMouseDrag in: {0}", planet.name));
+        HandleDrag();
     }
 
-    public void OnDrag(PointerEventData eventData)
+    private void HandleDrag()
     {
-        Debug.Log(String.Format("OnDrag in: {0}", planet.name));
-        
         GameController.isDragging = true;
         ActionsController.dragTargetPoint = GetCurrentMousePositionInSpace();
 
@@ -104,9 +93,14 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
         // we only want to set drag start etc for drag started on our owned/selected planet
         if (mp && mp.name == name && (mp.PlanetState == EPlanetState.OWNED || mp.PlanetState == EPlanetState.SELECTED))
         {
-            GameController.isDragging = false;
             ActionsController.dragStartPoint = transform.position;
             PlanetsController.dragStartPlanet = planet;
+        }
+
+        // update positions of the ends of attack arrows for selected/owned planets
+        if (planet.PlanetState == EPlanetState.SELECTED || planet.PlanetState == EPlanetState.OWNED)
+        {
+            SetDragAttackActionArrows();
         }
 
         // do not set drag target for the same planet we initialized drag on... it doesn't make sense
@@ -116,20 +110,12 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
         }
 
         // if we're dragging and there's no planet under cursor, clear the drag over planet
-        if (!mp) {
+        if (!mp)
+        {
             ClearDragOverPlanet();
         }
-    }
 
-    public void OnInitializePotentialDrag(PointerEventData eventData)
-    {
-        eventData.useDragThreshold = false;
-    }
-
-    private void DragPlanetToMousePosition()
-    {
-        Vector3 P = GetCurrentMousePositionInSpace();
-        planet.transform.position = P;
+        GameController.isDragging = false;
     }
 
     private Vector3 GetCurrentMousePositionInSpace()
@@ -142,7 +128,7 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
         return P;
     }
 
-    private void DrawDragAttackActionArrows()
+    private void SetDragAttackActionArrows()
     {
         Debug.Log(String.Format("DrawDragAttackActionArrows in: {0}", planet.name));
         IEnumerable<MainPlanet> selectedPlanets = PlanetUtils.GetSelectedPlanets(EPlayerType.PLAYER);
@@ -162,7 +148,7 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
         }
     }
 
-    private void CancelDrawingDragAttackArrows()
+    private void ClearDrawTargetAttackArrows()
     {
         Debug.Log(String.Format("CancelDrawingDragAttackArrows in: {0}", planet.name));
         foreach (MainPlanet p in PlanetUtils.GetAllThePlanets())
@@ -183,5 +169,4 @@ public class PlanetActions : MonoBehaviour, IDragHandler, IInitializePotentialDr
         }
         return null;
     }
-
 }
