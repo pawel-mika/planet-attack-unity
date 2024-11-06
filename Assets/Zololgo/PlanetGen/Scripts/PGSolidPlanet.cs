@@ -141,7 +141,10 @@ public class PGSolidPlanet : MonoBehaviour {
 			Shader.SetGlobalTexture("_Cubemap", cubemap);
 			renderTex = RenderTexture.GetTemporary(equirectangularTex.width, equirectangularTex.height, 0, RenderTextureFormat.ARGB32);
 			RenderTexture.active = renderTex;
-			Graphics.Blit(renderTex, renderTex, mat);
+			RenderTexture tempRT = RenderTexture.GetTemporary(renderTex.width, renderTex.height, 0, renderTex.format);
+			Graphics.Blit(renderTex, tempRT, mat);
+			Graphics.Blit(tempRT, renderTex);
+			RenderTexture.ReleaseTemporary(tempRT);
 			equirectangularTex.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
 			RenderTexture.active = null;
 			RenderTexture.ReleaseTemporary(renderTex);

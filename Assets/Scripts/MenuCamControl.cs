@@ -1,4 +1,5 @@
 using System;
+using PlanetAttack.Enums;
 using Unity.VisualScripting;
 using UnityEngine;
 using Input = UnityEngine.Input;
@@ -7,6 +8,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class MenuCamControl : MonoBehaviour
 {
+    private readonly GameController GameController = GameManager.GameController;
     public Transform currentMount;
     public float speedFactor = 0.0f;
 
@@ -15,7 +17,7 @@ public class MenuCamControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameController.GameState = GameController.EGameState.IN_MENU;
+        GameController.GameState = EGameState.IN_MENU;
     }
 
     // Update is called once per frame
@@ -33,16 +35,16 @@ public class MenuCamControl : MonoBehaviour
             SetTransform(go.transform);
             Events.onGameStateChange.Invoke(new string[] { Events.evtGameEnd });
 
-            GameController.GameState = GameController.EGameState.TRANSITION_TO_MENU;
+            GameController.GameState = EGameState.TRANSITION_TO_MENU;
         }
 
         if (travelling && Vector3.Distance(transform.position, currentMount.position) <= 0.005){
             Debug.Log(String.Format("Target reached: {0}", currentMount.name));
-            if(GameController.GameState == GameController.EGameState.TRANSITION_TO_MENU) {
-                GameController.GameState = GameController.EGameState.IN_MENU;
+            if(GameController.GameState == EGameState.TRANSITION_TO_MENU) {
+                GameController.GameState = EGameState.IN_MENU;
                 Events.onGameStateChange.Invoke(new string[] {Events.evtGameInMenu});
-            } else if(GameController.GameState == GameController.EGameState.TRANSITION_TO_GAME) {
-                GameController.GameState = GameController.EGameState.IN_GAME;
+            } else if(GameController.GameState == EGameState.TRANSITION_TO_GAME) {
+                GameController.GameState = EGameState.IN_GAME;
                 Events.onGameStateChange.Invoke(new string[] {Events.evtGameInGame});
             }
             travelling = false;
@@ -56,7 +58,7 @@ public class MenuCamControl : MonoBehaviour
         if (currentMount.gameObject.name.ContainsInsensitive("PlanetsBoardGuideCamera"))
         {
             Events.onGameStateChange.Invoke(new string[] { Events.evtGameStart });
-            GameController.GameState = GameController.EGameState.TRANSITION_TO_GAME;
+            GameController.GameState = EGameState.TRANSITION_TO_GAME;
         }
     }
 }

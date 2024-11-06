@@ -21,10 +21,6 @@ namespace PlanetAttack
 
         public static void RandomizePlanetsInSpace()
         {
-            // first move all planets off screen?
-            // foreach (MainPlanet planet in PlanetUtils.GetAllThePlanets()) {
-            //     planet.transform.position += new Vector3(200, 200, 0);
-            // }
             foreach (MainPlanet planet in PlanetUtils.GetAllThePlanets())
             {
                 ArrangePlanetInCameraViewport(planet);
@@ -35,7 +31,7 @@ namespace PlanetAttack
         public static void InitializePlanetsState() {
             foreach (MainPlanet planet in PlanetUtils.GetAllThePlanets())
             {
-                planet.InitializePlanetState();
+                planet.InitEmptyPlanetState();
             }
         }
 
@@ -53,7 +49,7 @@ namespace PlanetAttack
                 planet.transform.position = screenPosition;
                 var scale = Random.Range(1.25f, 3f);
                 planet.transform.localScale = new Vector3(scale, scale, scale);
-                planet.GetComponent<SphereCollider>().radius = (scale / 2) + 0.25f;
+                // planet.GetComponent<SphereCollider>().radius = (scale / 2) + 0.25f; //unwanted, collider too big...
                 antiInfinityLoopCounter--;
             } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject) && antiInfinityLoopCounter > 0);
             if(antiInfinityLoopCounter == 0) {
