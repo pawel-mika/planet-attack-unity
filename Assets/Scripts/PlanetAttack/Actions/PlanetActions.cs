@@ -6,7 +6,7 @@ using PlanetAttack.Enums;
 using PlanetAttack.ThePlanet;
 using UnityEngine;
 
-public class PlanetActions : MonoBehaviour 
+public class PlanetActions : MonoBehaviour
 {
     private readonly GameController GameController = GameManager.GameController;
     private readonly PlanetsController PlanetsController = GameManager.PlanetsController;
@@ -26,11 +26,14 @@ public class PlanetActions : MonoBehaviour
         if (PlanetsController.dragStartPlanet
             && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER
             && PlanetsController.dragOverPlanet
-            && PlanetsController.dragOverPlanet != PlanetsController.dragStartPlanet
-            && PlanetsController.dragOverPlanet.PlanetState != EPlanetState.POTENTIAL_TARGET)
-        {
-            PlanetsController.dragOverPlanet.SetPlanetState(EPlanetState.POTENTIAL_TARGET);
-        }
+            && PlanetsController.dragOverPlanet != PlanetsController.dragStartPlanet)
+            {
+                if (PlanetsController.dragOverPlanet.PlanetOwner != EPlayerType.PLAYER && PlanetsController.dragOverPlanet.PlanetState != EPlanetState.POTENTIAL_TARGET) {
+                    PlanetsController.dragOverPlanet.SetPlanetState(EPlanetState.POTENTIAL_TARGET);
+                } else if(PlanetsController.dragOverPlanet.PlanetOwner == EPlayerType.PLAYER && PlanetsController.dragOverPlanet.PlanetState != EPlanetState.POTENTIAL_TRANSFER) {
+                    PlanetsController.dragOverPlanet.SetPlanetState(EPlanetState.POTENTIAL_TRANSFER);
+                }
+            }
     }
 
 
@@ -93,6 +96,7 @@ public class PlanetActions : MonoBehaviour
         // we only want to set drag start etc for drag started on our owned/selected planet
         if (mp && mp.name == name && (mp.PlanetState == EPlanetState.OWNED || mp.PlanetState == EPlanetState.SELECTED))
         {
+            Debug.Log(String.Format("HandleDrag - start drag from: {0}", planet.name));
             ActionsController.dragStartPoint = transform.position;
             PlanetsController.dragStartPlanet = planet;
         }
@@ -100,11 +104,12 @@ public class PlanetActions : MonoBehaviour
         // update positions of the ends of attack arrows for selected/owned planets
         if (planet.PlanetState == EPlanetState.SELECTED || planet.PlanetState == EPlanetState.OWNED)
         {
+            ClearDrawTargetAttackArrows(); // clear first to start fresh
             SetDragAttackActionArrows();
         }
 
         // do not set drag target for the same planet we initialized drag on... it doesn't make sense
-        if (mp && mp.name != name && mp.PlanetState != EPlanetState.OWNED && mp.PlanetState != EPlanetState.SELECTED)
+        if (mp && mp.name != name /* && mp.PlanetState != EPlanetState.OWNED && mp.PlanetState != EPlanetState.SELECTED */ )
         {
             SetDragOverPlanet();
         }
@@ -130,21 +135,25 @@ public class PlanetActions : MonoBehaviour
 
     private void SetDragAttackActionArrows()
     {
-        Debug.Log(String.Format("DrawDragAttackActionArrows in: {0}", planet.name));
+        Debug.Log(String.Format("SetDragAttackActionArrows in: {0}", planet.name));
         IEnumerable<MainPlanet> selectedPlanets = PlanetUtils.GetSelectedPlanets(EPlayerType.PLAYER);
-        if (selectedPlanets.Count() == 0 && PlanetsController.dragStartPlanet)
+        if (PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER && !selectedPlanets.Contains(PlanetsController.dragStartPlanet))
         {
             // single planet action
             PlanetsController.dragStartPlanet.DrawTarget = GetCurrentMousePositionInSpace();
+            Debug.Log(string.Format("SetDragAttackActionArrows in single planet: {0} ",PlanetsController.dragStartPlanet.name));
         }
-        else
+        else if (PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER && selectedPlanets.Contains(PlanetsController.dragStartPlanet))
         {
             //multi planet action
-            selectedPlanets.Append(PlanetsController.dragStartPlanet);
+            if(GetPlanetUnderCursor()) {
+                selectedPlanets = selectedPlanets.Concat(new [] {GetPlanetUnderCursor()});
+            }
             foreach (MainPlanet p in selectedPlanets)
             {
                 p.DrawTarget = GetCurrentMousePositionInSpace();
             }
+            Debug.Log(string.Format("SetDragAttackActionArrows in planets: {0}", string.Join(", ", selectedPlanets.Select(p => p.name))));
         }
     }
 

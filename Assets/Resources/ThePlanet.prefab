@@ -55,6 +55,7 @@ MonoBehaviour:
   PlayerPlanetHalo: {fileID: 7428890350082067759}
   EnemyPlanetHalo: {fileID: 7595025225567386832}
   TargetPlanetMarker: {fileID: 1694077908070547484}
+  TransferPlanetMarker: {fileID: 7278995437534864873}
   ShipsLabel: {fileID: 718627395693853471}
   MineralsLabel: {fileID: 3044020247536778271}
   FoodLabel: {fileID: 2556561784619671930}
@@ -1241,7 +1242,7 @@ PrefabInstance:
     - target: {fileID: 3122359149408637381, guid: 559c0ab80475ca241b6eb40c3e67949c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6025900098537938804, guid: 559c0ab80475ca241b6eb40c3e67949c,
         type: 3}
@@ -1316,6 +1317,12 @@ PrefabInstance:
 --- !u!4 &2157429710716234584 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6025900098537938804, guid: 559c0ab80475ca241b6eb40c3e67949c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5643281717688349740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7278995437534864873 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3122359149408637381, guid: 559c0ab80475ca241b6eb40c3e67949c,
     type: 3}
   m_PrefabInstance: {fileID: 5643281717688349740}
   m_PrefabAsset: {fileID: 0}

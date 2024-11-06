@@ -61,6 +61,7 @@ namespace PlanetAttack.ThePlanet
         public GameObject PlayerPlanetHalo;
         public GameObject EnemyPlanetHalo;
         public GameObject TargetPlanetMarker;
+        public GameObject TransferPlanetMarker;
 
         public TheLabel ShipsLabel;
         public TheLabel MineralsLabel;
@@ -188,6 +189,7 @@ namespace PlanetAttack.ThePlanet
             PlayerPlanetHalo.SetActive(false);
             EnemyPlanetHalo.SetActive(false);
             TargetPlanetMarker.SetActive(false);
+            TransferPlanetMarker.SetActive(false);
 
             Ships = Random.Range(0, 128);
             Minerals = Random.Range(0, 512);
@@ -222,11 +224,14 @@ namespace PlanetAttack.ThePlanet
 
         private void RecalcStateAndOwnerChanges()
         {
+            // cleanup state first
+            TargetPlanetMarker.SetActive(false);
+            TransferPlanetMarker.SetActive(false);
+            ResetHalo(PlayerPlanetHalo);
+            ResetHalo(EnemyPlanetHalo);
             switch (PlanetState)
             {
                 case EPlanetState.OWNED:
-                    ResetHalo(PlayerPlanetHalo);
-                    ResetHalo(EnemyPlanetHalo);
                     switch (PlanetOwner)
                     {
                         case EPlayerType.PLAYER:
@@ -244,11 +249,18 @@ namespace PlanetAttack.ThePlanet
                             break;
                     }
                     break;
+                case EPlanetState.POTENTIAL_TRANSFER:
+                    TargetPlanetMarker.SetActive(false);
+                    TransferPlanetMarker.SetActive(true);
+                    break;
                 case EPlanetState.POTENTIAL_TARGET:
                     TargetPlanetMarker.SetActive(true);
+                    TransferPlanetMarker.SetActive(false);
                     break;
                 default:
+                    // DrawTarget = transform.position; // ? idk if thats good place (and idea in general)
                     TargetPlanetMarker.SetActive(false);
+                    TransferPlanetMarker.SetActive(false);
                     break;
             }
         }
