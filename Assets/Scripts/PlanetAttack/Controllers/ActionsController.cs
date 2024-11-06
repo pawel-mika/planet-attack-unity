@@ -22,6 +22,7 @@ public class ActionsController
 
     private LinkedList<InterplanetaryAction> ActionsStack = new();
 
+    public Vector3 mouseDownPoint;
     public Vector3 dragStartPoint;
     public Vector3 dragTargetPoint;
 

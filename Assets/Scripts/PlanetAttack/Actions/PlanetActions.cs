@@ -14,6 +14,8 @@ public class PlanetActions : MonoBehaviour
 
     public MainPlanet planet;
 
+    private float dragDistanceThreshold = 0.1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +66,7 @@ public class PlanetActions : MonoBehaviour
     public void OnMouseDown()
     {
         Debug.Log(String.Format("OnMouseDown in: {0}", planet.name));
+        ActionsController.mouseDownPoint = GetCurrentMousePositionInSpace();
     }
 
     public void OnMouseUp()
@@ -71,8 +74,9 @@ public class PlanetActions : MonoBehaviour
         Debug.Log(String.Format("OnMouseUp in: {0}", planet.name));
         TestPlanetSelection();
         PlanetsController.dragStartPlanet = null;
-        ActionsController.dragStartPoint = Vector3.zero;
-        ActionsController.dragTargetPoint = Vector3.zero;
+        ActionsController.mouseDownPoint = Vector3.negativeInfinity;
+        ActionsController.dragStartPoint = Vector3.negativeInfinity;
+        ActionsController.dragTargetPoint = Vector3.negativeInfinity;
         if (!GetPlanetUnderCursor())
         {
             ClearDrawTargetAttackArrows();
@@ -83,7 +87,9 @@ public class PlanetActions : MonoBehaviour
     public void OnMouseDrag()
     {
         Debug.Log(String.Format("OnMouseDrag in: {0}", planet.name));
-        HandleDrag();
+        if(GetDragDistance() > dragDistanceThreshold) {
+            HandleDrag();
+        }
     }
 
     private void HandleDrag()
@@ -177,5 +183,12 @@ public class PlanetActions : MonoBehaviour
             }
         }
         return null;
+    }
+
+    private float GetDragDistance() {
+        if(ActionsController.mouseDownPoint != null && ActionsController.mouseDownPoint != Vector3.negativeInfinity) {
+            return Vector3.Distance(ActionsController.mouseDownPoint, GetCurrentMousePositionInSpace());
+        }
+        return 0;
     }
 }
