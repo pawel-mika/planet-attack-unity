@@ -28,7 +28,8 @@ namespace PlanetAttack
             }
         }
 
-        public static void InitializePlanetsState() {
+        public static void InitializePlanetsState()
+        {
             foreach (MainPlanet planet in PlanetUtils.GetAllThePlanets())
             {
                 planet.InitEmptyPlanetState();
@@ -52,12 +53,14 @@ namespace PlanetAttack
                 // planet.GetComponent<SphereCollider>().radius = (scale / 2) + 0.25f; //unwanted, collider too big...
                 antiInfinityLoopCounter--;
             } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject) && antiInfinityLoopCounter > 0);
-            if(antiInfinityLoopCounter == 0) {
+            if (antiInfinityLoopCounter == 0)
+            {
                 Debug.Log(String.Format("Giving up repositioning: {0}", planet.name));
             }
         }
 
-        public static void CleanupBoard() {
+        public static void CleanupBoard()
+        {
             PlanetUtils.ReleasePlanetsToPool();
         }
     }

@@ -24,16 +24,27 @@ public class PlanetsController
 
     public MainPlanet dragOverPlanet = null;
 
-    private Dictionary<MainPlanet, EPlanetState> previousStates = new Dictionary<MainPlanet,EPlanetState>();
+    private Dictionary<MainPlanet, EPlanetState> previousStates = new Dictionary<MainPlanet, EPlanetState>();
 
-    public void ClearAllPotentnialTargets() {
-        foreach(MainPlanet planet in PlanetUtils.GetPotentialTargetMarkedPlanets()) {
+    public void ClearAllPotentnialTargets()
+    {
+        foreach (MainPlanet planet in PlanetUtils.GetPotentialTargetMarkedPlanets())
+        {
             //planet.SetPlanetState(previousStates.GetValueOrDefault(planet, EPlanetState.NONE));
             planet.RevertPreviousState();
         }
     }
 
-    // public MainPlanet GetPlanetUnderCursor() {
-        
-    // }
+    public MainPlanet GetPlanetUnderCursor()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f))
+        {
+            if (raycastHit.transform != null)
+            {
+                return raycastHit.transform.gameObject.GetComponent<MainPlanet>();
+            }
+        }
+        return null;
+    }
 }

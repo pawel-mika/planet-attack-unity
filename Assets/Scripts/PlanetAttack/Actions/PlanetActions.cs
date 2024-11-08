@@ -14,6 +14,8 @@ public class PlanetActions : MonoBehaviour
 
     public MainPlanet planet;
 
+    public TheLabel DebugLabel;
+
     private float dragDistanceThreshold = 0.1f;
 
     // Start is called before the first frame update
@@ -25,6 +27,11 @@ public class PlanetActions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            SetDebugMode(Debug.isDebugBuild && !DebugLabel.gameObject.activeInHierarchy);
+        }
+
         if (PlanetsController.dragStartPlanet
             && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER
             && PlanetsController.dragOverPlanet
@@ -52,9 +59,12 @@ public class PlanetActions : MonoBehaviour
         Debug.Log(String.Format("OnMouseUp in: {0}", planet.name));
         TestPlanetSelection();
         PlanetsController.dragStartPlanet = null;
+        // ClearDragOverPlanet();
+        PlanetsController.dragOverPlanet = null;
         ActionsController.mouseDownPoint = Vector3.negativeInfinity;
         ActionsController.dragStartPoint = Vector3.negativeInfinity;
         ActionsController.dragTargetPoint = Vector3.negativeInfinity;
+        
         if (!GetPlanetUnderCursor())
         {
             ClearDrawTargetAttackArrows();
@@ -68,6 +78,24 @@ public class PlanetActions : MonoBehaviour
         if (GetDragDistance() > dragDistanceThreshold)
         {
             HandleDrag();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        MainPlanet mp = PlanetsController.dragOverPlanet;
+        if(mp) {
+            DebugLabel.LabelText = string.Format("DragOver: {0}, {1}, {2}", mp.name, mp.PlanetOwner, mp.PlanetState);
+        } else {
+            DebugLabel.LabelText = "...";
+        }
+    }
+
+    public void SetDebugMode(bool isDebugMode)
+    {
+        if (DebugLabel)
+        {
+            DebugLabel.gameObject.SetActive(isDebugMode);
         }
     }
 
@@ -109,7 +137,7 @@ public class PlanetActions : MonoBehaviour
         GameController.isDragging = false;
     }
 
-        private void TestPlanetSelection()
+    private void TestPlanetSelection()
     {
         MainPlanet mp = GetPlanetUnderCursor();
         if (mp && mp.name == name)
@@ -136,7 +164,7 @@ public class PlanetActions : MonoBehaviour
     private Vector3 GetCurrentMousePositionInSpace()
     {
         Ray R = Camera.main.ScreenPointToRay(Input.mousePosition); // Get the ray from mouse position
-        Vector3 PO = transform.position; // Take current position of this draggable object as Plane's Origin
+        Vector3 PO = planet.transform.position; // Take current position of this draggable object as Plane's Origin
         Vector3 PN = -Camera.main.transform.forward; // Take current negative camera's forward as Plane's Normal
         float t = Vector3.Dot(PO - R.origin, PN) / Vector3.Dot(R.direction, PN); // plane vs. line intersection in algebric form. It find t as distance from the camera of the new point in the ray's direction.
         Vector3 P = R.origin + R.direction * t; // Find the new point.

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using PlanetAttack.Enums;
+using Unity.VisualScripting;
 using UnityEngine;
 using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
@@ -10,7 +12,8 @@ namespace PlanetAttack.ThePlanet
     public class MainPlanet : MonoBehaviour
     {
         private readonly GameController GameController = GameManager.GameController;
-        
+        private readonly PlanetsController PlanetsController = GameManager.PlanetsController;
+
         private float rotationPerSec = 0.05f;
         public float RotationPerSec
         {
@@ -67,6 +70,8 @@ namespace PlanetAttack.ThePlanet
         public TheLabel MineralsLabel;
         public TheLabel FoodLabel;
 
+        public TheLabel DebugLabel;
+
         private float ShipsBonus = 0;
         private float MineralsBonus = 0;
         private float FoodBonus = 0;
@@ -98,8 +103,12 @@ namespace PlanetAttack.ThePlanet
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                SetDebugMode(Debug.isDebugBuild && !DebugLabel.gameObject.activeInHierarchy);
+            }
+
             Planet.transform.Rotate(Vector3.up, this.rotationSpeed * Time.deltaTime);
-            // CheckClicked();
 
             if (PlanetState == EPlanetState.SELECTED)
             {
@@ -126,6 +135,7 @@ namespace PlanetAttack.ThePlanet
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Debug.DrawRay(ray.origin, ray.direction, Color.magenta);
+            DebugLabel.LabelText = string.Format("{0} owner:{1}, state: {2}", name, PlanetOwner, PlanetState);
         }
 
         private void BlinkPlayerHalo()
@@ -203,7 +213,8 @@ namespace PlanetAttack.ThePlanet
             ShipCostFood = Random.Range(10f, 15f);
         }
 
-        public void RevertPreviousState() {
+        public void RevertPreviousState()
+        {
             SetPlanetState(PreviousState);
         }
 
@@ -220,6 +231,14 @@ namespace PlanetAttack.ThePlanet
             PlanetOwner = type;
             RecalcStateAndOwnerChanges();
             Debug.Log(String.Format("Set '{0}' state to: {1}", name, Enum.GetName(typeof(EPlayerType), type)));
+        }
+
+        public void SetDebugMode(bool isDebugMode)
+        {
+            if (DebugLabel)
+            {
+                DebugLabel.gameObject.SetActive(isDebugMode);
+            }
         }
 
         private void RecalcStateAndOwnerChanges()
@@ -273,7 +292,9 @@ namespace PlanetAttack.ThePlanet
                 lr.SetPosition(0, transform.position);
                 lr.SetPosition(1, DrawTarget);
                 // Debug.Log(String.Format("Draw from {0} to {1} for {2}", transform.position, DrawTarget, name));
-            } else {
+            }
+            else
+            {
                 lr.SetPositions(new List<Vector3>() { transform.position, transform.position }.ToArray());
             }
         }
