@@ -20,6 +20,7 @@ public class GameBoard : MonoBehaviour
             GameBoardUtils.GeneratePlanets();
             GameBoardUtils.RandomizePlanetsInSpace();
             GameBoardUtils.InitializePlanetsState();
+            GameBoardUtils.RandomizeStartingPlanets();
         }
 
         if (evt.Contains(Events.evtGameInMenu)) {

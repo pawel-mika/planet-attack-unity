@@ -4,6 +4,10 @@ using PlanetAttack.ThePlanet;
 using UnityEditor;
 using System;
 using Random = UnityEngine.Random;
+using NUnit.Framework.Constraints;
+using System.Collections;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace PlanetAttack
 {
@@ -26,6 +30,17 @@ namespace PlanetAttack
                 ArrangePlanetInCameraViewport(planet);
                 PlanetUtils.RandomizePlanetMaterials(planet);
             }
+        }
+
+        public static void RandomizeStartingPlanets() {
+            List<MainPlanet> AllPlanets = PlanetUtils.GetAllThePlanets().ToList();
+            int playerIdx = Random.Range(0, AllPlanets.Count());
+            AllPlanets[playerIdx].SetPlanetOwner(Enums.EPlayerType.PLAYER);
+            AllPlanets[playerIdx].SetPlanetState(Enums.EPlanetState.OWNED);
+            AllPlanets.RemoveAt(playerIdx);
+            int enemyIdx = Random.Range(0, AllPlanets.Count());
+            AllPlanets[enemyIdx].SetPlanetOwner(Enums.EPlayerType.ENEMY);
+            AllPlanets[enemyIdx].SetPlanetState(Enums.EPlanetState.OWNED);
         }
 
         public static void InitializePlanetsState()

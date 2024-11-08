@@ -21,7 +21,6 @@ public class PlanetActions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(String.Format("Start planet actions object: {0}", planet.name));
     }
 
     // Update is called once per frame
@@ -64,7 +63,7 @@ public class PlanetActions : MonoBehaviour
         ActionsController.mouseDownPoint = Vector3.negativeInfinity;
         ActionsController.dragStartPoint = Vector3.negativeInfinity;
         ActionsController.dragTargetPoint = Vector3.negativeInfinity;
-        
+
         if (!GetPlanetUnderCursor())
         {
             ClearDrawTargetAttackArrows();
@@ -84,9 +83,12 @@ public class PlanetActions : MonoBehaviour
     private void OnDrawGizmos()
     {
         MainPlanet mp = PlanetsController.dragOverPlanet;
-        if(mp) {
+        if (mp)
+        {
             DebugLabel.LabelText = string.Format("DragOver: {0}, {1}, {2}", mp.name, mp.PlanetOwner, mp.PlanetState);
-        } else {
+        }
+        else
+        {
             DebugLabel.LabelText = "...";
         }
     }
