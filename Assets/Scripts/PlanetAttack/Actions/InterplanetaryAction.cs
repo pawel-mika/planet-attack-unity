@@ -14,12 +14,12 @@ public abstract class InterplanetaryAction : MonoBehaviour
     // protected Vector2 dstPoint = null;
     protected int actionLength = 5000; //5000ms = 5s
     // protected TickEvent firstTick = null;
-    // protected long actionStartTime = -1;
+    protected float actionStartTime = Time.time;
     // protected float actionProgress = 0.0f;
-    // private boolean finished = false;
+    private bool finished = false;
     protected EPlayerType actionOwner = EPlayerType.NONE;
     private float distance = 0;
-    // private boolean isPaused = false;
+    private bool isPaused = false;
     // private long pauseLength = 0, lastPauseStartTime = 0;
 
 

@@ -26,4 +26,14 @@ public class ActionsController
     public Vector3 dragStartPoint;
     public Vector3 dragTargetPoint;
 
+    /// <summary>
+    /// Create an interplanetary aciton to be performed from the current state of the board:
+    /// * selected planet(s)
+    /// * target planet
+    /// NEEDS to be called in proper moment - just after the mouse pointer has been released but before next update
+    /// that will clean some board elements to their default states (?)
+    /// </summary>
+    public InterplanetaryAction CreateActionFromCurrentState() {
+        return null;
+    }
 }
