@@ -4,6 +4,7 @@ using System.Linq;
 using PlanetAttack;
 using PlanetAttack.Enums;
 using PlanetAttack.ThePlanet;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlanetActions : MonoBehaviour
@@ -57,6 +58,9 @@ public class PlanetActions : MonoBehaviour
     {
         Debug.Log(String.Format("OnMouseUp in: {0}", planet.name));
         TestPlanetSelection();
+
+        ActionsController.CreateActionFromCurrentState(GetSourcePlanets(), GetPlanetUnderCursor());
+
         PlanetsController.dragStartPlanet = null;
         // ClearDragOverPlanet();
         PlanetsController.dragOverPlanet = null;
@@ -64,11 +68,11 @@ public class PlanetActions : MonoBehaviour
         ActionsController.dragStartPoint = Vector3.negativeInfinity;
         ActionsController.dragTargetPoint = Vector3.negativeInfinity;
 
-        if (!GetPlanetUnderCursor())
-        {
+        // if (!GetPlanetUnderCursor())
+        // {
             ClearDrawTargetAttackArrows();
             PlanetsController.ClearAllPotentnialTargets();
-        }
+        // }
     }
 
     public void OnMouseDrag()
@@ -176,31 +180,54 @@ public class PlanetActions : MonoBehaviour
     private void SetDragAttackActionArrows()
     {
         Debug.Log(String.Format("SetDragAttackActionArrows in: {0}", planet.name));
-        IEnumerable<MainPlanet> selectedPlanets = PlanetUtils.GetSelectedPlanets(EPlayerType.PLAYER);
-        if (PlanetsController.dragStartPlanet && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER && !selectedPlanets.Contains(PlanetsController.dragStartPlanet))
-        {
-            // single planet action
-            PlanetsController.dragStartPlanet.DrawTarget = GetCurrentMousePositionInSpace();
-            Debug.Log(string.Format("SetDragAttackActionArrows in single planet: {0} ", PlanetsController.dragStartPlanet.name));
-        }
-        else if (PlanetsController.dragStartPlanet && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER && selectedPlanets.Contains(PlanetsController.dragStartPlanet))
-        {
-            //multi planet action
-            foreach (MainPlanet p in selectedPlanets)
-            {
-                p.DrawTarget = GetCurrentMousePositionInSpace();
-            }
+        // IEnumerable<MainPlanet> selectedPlanets = PlanetUtils.GetSelectedPlanets(EPlayerType.PLAYER);
+        // if (PlanetsController.dragStartPlanet && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER && !selectedPlanets.Contains(PlanetsController.dragStartPlanet))
+        // {
+        //     // single planet action
+        //     PlanetsController.dragStartPlanet.DrawTarget = GetCurrentMousePositionInSpace();
+        //     Debug.Log(string.Format("SetDragAttackActionArrows in single planet: {0} ", PlanetsController.dragStartPlanet.name));
+        // }
+        // else if (PlanetsController.dragStartPlanet && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER && selectedPlanets.Contains(PlanetsController.dragStartPlanet))
+        // {
+        //     //multi planet action
+        //     foreach (MainPlanet p in selectedPlanets)
+        //     {
+        //         p.DrawTarget = GetCurrentMousePositionInSpace();
+        //     }
+        // }
+        
+        foreach(MainPlanet mp in GetSourcePlanets()) {
+            mp.DrawTarget = GetCurrentMousePositionInSpace();
         }
     }
 
     private void ClearDrawTargetAttackArrows()
     {
-        Debug.Log(String.Format("CancelDrawingDragAttackArrows in: {0}", planet.name));
+        Debug.Log(string.Format("CancelDrawingDragAttackArrows in: {0}", planet.name));
         foreach (MainPlanet p in PlanetUtils.GetAllThePlanets())
         {
             p.DrawTarget = p.transform.position;
         }
     }
+
+    private LinkedList<MainPlanet> GetSourcePlanets()
+    {
+        Debug.Log(string.Format("GetSourcePlanets in: {0}", planet.name));
+        LinkedList<MainPlanet> sourcePlanets = new();
+        IEnumerable<MainPlanet> selectedPlanets = PlanetUtils.GetSelectedPlanets(EPlayerType.PLAYER);
+        if (PlanetsController.dragStartPlanet && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER && !selectedPlanets.Contains(PlanetsController.dragStartPlanet))
+        {
+            // single planet action
+            sourcePlanets.AddLast(PlanetsController.dragStartPlanet);
+        }
+        else if (PlanetsController.dragStartPlanet && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER && selectedPlanets.Contains(PlanetsController.dragStartPlanet))
+        {
+            //multi planet action
+            sourcePlanets.AddRange(selectedPlanets);
+        }
+        return sourcePlanets;
+    }
+
 
     private MainPlanet GetPlanetUnderCursor()
     {

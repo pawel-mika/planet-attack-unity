@@ -2,7 +2,7 @@ using PlanetAttack.Enums;
 using PlanetAttack.ThePlanet;
 using UnityEngine;
 
-public abstract class InterplanetaryAction : MonoBehaviour
+public abstract class InterplanetaryAction
 {
 
 
@@ -18,19 +18,14 @@ public abstract class InterplanetaryAction : MonoBehaviour
     // protected float actionProgress = 0.0f;
     private bool finished = false;
     protected EPlayerType actionOwner = EPlayerType.NONE;
-    private float distance = 0;
+    protected float distance = 0;
     private bool isPaused = false;
     // private long pauseLength = 0, lastPauseStartTime = 0;
 
 
-    // /**
-    //  * 
-    //  * @param mf
-    //  * @param gms
-    //  * @param speed in ms
-    //  */
-    public InterplanetaryAction(MainPlanet srcPlanet, MainPlanet dstPlanet, int speed): base()
+    public InterplanetaryAction(MainPlanet srcPlanet, MainPlanet dstPlanet, float speed = 0.1f) : base()
     {
+        // think of src/dst point being from center to center of planet or to mouse release point? imo center - let's do that first and rethink if needed
         this.srcPlanet = srcPlanet;
         this.dstPlanet = dstPlanet;
         this.actionOwner = srcPlanet.PlanetOwner;
@@ -40,7 +35,9 @@ public abstract class InterplanetaryAction : MonoBehaviour
         this.actionLength = (int)(distance / speed) * 100;  //obliczamy ile czasu zajmie droga...
     }
 
-    public abstract void Update();
+    public float GetProgress() {
+        return ((Time.time - actionStartTime) / actionLength) * 100;
+    }
 
     // public abstract void finishAction();
 
@@ -82,15 +79,17 @@ public abstract class InterplanetaryAction : MonoBehaviour
     //     return actionOwner;
     // }
 
-    // public Planet getDstPlanet()
-    // {
-    //     return dstPlanet;
-    // }
+    public MainPlanet GetDstPlanet()
+    {
+        return dstPlanet;
+    }
 
-    // public Planet getSrcPlanet()
-    // {
-    //     return srcPlanet;
-    // }
+    public MainPlanet GetSrcPlanet()
+    {
+        return srcPlanet;
+    }
+
+    public abstract void FinalizeAction();
 
     // public void setPaused(boolean isPaused)
     // {

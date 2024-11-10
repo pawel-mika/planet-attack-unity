@@ -9,7 +9,6 @@ using Debug = UnityEngine.Debug;
 
 public class PlanetsController
 {
-
     private static readonly Lazy<PlanetsController> instance = new(() => new PlanetsController());
 
     private PlanetsController()
