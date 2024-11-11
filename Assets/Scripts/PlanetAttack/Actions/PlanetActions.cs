@@ -32,6 +32,10 @@ public class PlanetActions : MonoBehaviour
             SetDebugMode(Debug.isDebugBuild && !DebugLabel.gameObject.activeInHierarchy);
         }
 
+        if(Input.GetMouseButtonUp(0)) {
+            TestDeselectSelectedPlanets();
+        }
+
         if (PlanetsController.dragStartPlanet
             && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER
             && PlanetsController.dragOverPlanet
@@ -63,9 +67,9 @@ public class PlanetActions : MonoBehaviour
 
         // if (!GetPlanetUnderCursor())
         // {
-            ClearDragOverPlanet();
-            ClearDrawTargetAttackArrows();
-            PlanetsController.ClearAllPotentnialTargets();
+        ClearDragOverPlanet();
+        ClearDrawTargetAttackArrows();
+        PlanetsController.ClearAllPotentnialTargets();
         // }
 
         // clear all dragging left overs
@@ -150,8 +154,26 @@ public class PlanetActions : MonoBehaviour
         if (mp && mp.name == name)
         {
             Debug.Log(String.Format("TestPlanetSelection: {0}, isDragging: {1}, dragOverPlanet: {2}", planet.name, GameController.isDragging, PlanetsController.dragOverPlanet));
-            planet.SetPlanetOwner(EPlayerType.PLAYER);
-            planet.SetPlanetState(planet.PlanetState == EPlanetState.OWNED ? EPlanetState.SELECTED : EPlanetState.OWNED);
+            if (Debug.isDebugBuild && Input.GetKey(KeyCode.LeftControl))
+            {
+                planet.SetPlanetOwner(EPlayerType.PLAYER);
+                planet.SetPlanetState(planet.PlanetState == EPlanetState.OWNED ? EPlanetState.SELECTED : EPlanetState.OWNED);
+            } else if(planet.PlanetOwner == EPlayerType.PLAYER){
+                planet.SetPlanetState(planet.PlanetState == EPlanetState.OWNED ? EPlanetState.SELECTED : EPlanetState.OWNED);
+            }
+        }
+    }
+
+    private void TestDeselectSelectedPlanets()
+    {
+        MainPlanet mp = GetPlanetUnderCursor(); // that wont work here - need to move somewhere outside to check ig clicked outside planet
+        if (!mp)
+        {
+            Debug.Log(String.Format("TestDeselectSelected - deselect selected planets"));
+            foreach (MainPlanet selected in PlanetUtils.GetSelectedPlanets(EPlayerType.PLAYER))
+            {
+                selected.SetPlanetState(EPlanetState.OWNED);
+            }
         }
     }
 
@@ -181,23 +203,9 @@ public class PlanetActions : MonoBehaviour
     private void SetDragAttackActionArrows()
     {
         Debug.Log(String.Format("SetDragAttackActionArrows in: {0}", planet.name));
-        // IEnumerable<MainPlanet> selectedPlanets = PlanetUtils.GetSelectedPlanets(EPlayerType.PLAYER);
-        // if (PlanetsController.dragStartPlanet && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER && !selectedPlanets.Contains(PlanetsController.dragStartPlanet))
-        // {
-        //     // single planet action
-        //     PlanetsController.dragStartPlanet.DrawTarget = GetCurrentMousePositionInSpace();
-        //     Debug.Log(string.Format("SetDragAttackActionArrows in single planet: {0} ", PlanetsController.dragStartPlanet.name));
-        // }
-        // else if (PlanetsController.dragStartPlanet && PlanetsController.dragStartPlanet.PlanetOwner == EPlayerType.PLAYER && selectedPlanets.Contains(PlanetsController.dragStartPlanet))
-        // {
-        //     //multi planet action
-        //     foreach (MainPlanet p in selectedPlanets)
-        //     {
-        //         p.DrawTarget = GetCurrentMousePositionInSpace();
-        //     }
-        // }
 
-        foreach(MainPlanet mp in GetSourcePlanets()) {
+        foreach (MainPlanet mp in GetSourcePlanets())
+        {
             mp.DrawTarget = GetCurrentMousePositionInSpace();
         }
     }
@@ -251,4 +259,5 @@ public class PlanetActions : MonoBehaviour
         }
         return 0;
     }
+
 }
