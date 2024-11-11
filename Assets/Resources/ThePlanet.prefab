@@ -148,7 +148,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 5, y: 5, z: 0}
+  - {x: 1, y: 1, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.9966714
@@ -695,7 +695,7 @@ PrefabInstance:
     - target: {fileID: 2089908419338845388, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2089908419338845388, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
@@ -705,7 +705,7 @@ PrefabInstance:
     - target: {fileID: 2089908419338845388, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2089908419338845388, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
@@ -715,7 +715,7 @@ PrefabInstance:
     - target: {fileID: 2089908419338845388, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -48
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 2089908419338845388, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
@@ -739,8 +739,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2089908419338845388, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2089908419338845388, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0000019073486
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3563051809003813661, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
@@ -1611,7 +1616,7 @@ PrefabInstance:
     - target: {fileID: 4260898863451774995, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
       propertyPath: LabelText
-      value: 'ThePlanet owner:NONE, state: NONE'
+      value: ...
       objectReference: {fileID: 0}
     - target: {fileID: 4822368288865070310, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}

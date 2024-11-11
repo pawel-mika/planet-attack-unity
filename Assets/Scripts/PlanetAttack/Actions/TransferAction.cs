@@ -9,7 +9,7 @@ public class TransferAction : InterplanetaryAction
     private float minerals = 0;
     private float ships = 0;
 
-    public TransferAction(MainPlanet srcPlanet, MainPlanet dstPlanet, int speed = 1) : base(srcPlanet, dstPlanet, speed)
+    public TransferAction(MainPlanet srcPlanet, MainPlanet dstPlanet, float speed = 1.5f) : base(srcPlanet, dstPlanet, speed)
     {
         Debug.Log(string.Format("TransferAction from {0} to {1}", srcPlanet.name, dstPlanet.name));
         food = srcPlanet.Food / 2;

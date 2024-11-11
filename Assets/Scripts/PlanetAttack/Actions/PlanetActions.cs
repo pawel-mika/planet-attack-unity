@@ -61,18 +61,19 @@ public class PlanetActions : MonoBehaviour
 
         ActionsController.CreateActionFromCurrentState(GetSourcePlanets(), GetPlanetUnderCursor());
 
+        // if (!GetPlanetUnderCursor())
+        // {
+            ClearDragOverPlanet();
+            ClearDrawTargetAttackArrows();
+            PlanetsController.ClearAllPotentnialTargets();
+        // }
+
+        // clear all dragging left overs
         PlanetsController.dragStartPlanet = null;
-        // ClearDragOverPlanet();
         PlanetsController.dragOverPlanet = null;
         ActionsController.mouseDownPoint = Vector3.negativeInfinity;
         ActionsController.dragStartPoint = Vector3.negativeInfinity;
         ActionsController.dragTargetPoint = Vector3.negativeInfinity;
-
-        // if (!GetPlanetUnderCursor())
-        // {
-            ClearDrawTargetAttackArrows();
-            PlanetsController.ClearAllPotentnialTargets();
-        // }
     }
 
     public void OnMouseDrag()
@@ -195,7 +196,7 @@ public class PlanetActions : MonoBehaviour
         //         p.DrawTarget = GetCurrentMousePositionInSpace();
         //     }
         // }
-        
+
         foreach(MainPlanet mp in GetSourcePlanets()) {
             mp.DrawTarget = GetCurrentMousePositionInSpace();
         }

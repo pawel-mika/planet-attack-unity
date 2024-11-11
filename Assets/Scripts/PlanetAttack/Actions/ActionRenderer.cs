@@ -7,12 +7,20 @@ using Vector3 = UnityEngine.Vector3;
 public class ActionRenderer : MonoBehaviour
 {
     public InterplanetaryAction action;
+    public Material PlayerActionMaterial;
+    public Material EnemyActionMaterial;
     private LineRenderer lineRenderer;
+
+    public Canvas Canvas;
+    public GameObject IconShips;
+    public GameObject IconMinerals;
+    public GameObject IconFood;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        // lineRenderer.material = 
+        SetupActionType();
     }
 
     // Update is called once per frame
@@ -23,7 +31,9 @@ public class ActionRenderer : MonoBehaviour
         Vector3 endPoint = B - ((B - A) * action.GetProgress());
         lineRenderer.SetPosition(0, A);
         lineRenderer.SetPosition(1, endPoint);
-        if(action.GetProgress() >= 1) {
+        Canvas.transform.position = endPoint;
+        if (action.GetProgress() >= 1)
+        {
             FinishAction();
         }
     }
@@ -32,6 +42,20 @@ public class ActionRenderer : MonoBehaviour
     {
         action.FinalizeAction();
         Destroy(gameObject);
+    }
+
+    private void SetupActionType()
+    {
+        switch (action)
+        {
+            case AttackAction:
+                IconShips.transform.position = IconMinerals.transform.position;
+                IconMinerals.SetActive(false);
+                IconFood.SetActive(false);
+                break;
+            case TransferAction:
+                break;
+        }
     }
 
 }

@@ -4,10 +4,6 @@ using UnityEngine;
 
 public abstract class InterplanetaryAction
 {
-
-
-    // protected IMainFrame mf = null;
-    // protected GameMainScreen gms = null;
     protected MainPlanet srcPlanet = null;
     // protected Vector2 srcPoint = null;
     protected MainPlanet dstPlanet = null;
@@ -23,7 +19,7 @@ public abstract class InterplanetaryAction
     // private long pauseLength = 0, lastPauseStartTime = 0;
 
 
-    public InterplanetaryAction(MainPlanet srcPlanet, MainPlanet dstPlanet, float speed = 0.2f) : base()
+    public InterplanetaryAction(MainPlanet srcPlanet, MainPlanet dstPlanet, float speed = 0.2f)
     {
         // think of src/dst point being from center to center of planet or to mouse release point? imo center - let's do that first and rethink if needed
         this.srcPlanet = srcPlanet;
