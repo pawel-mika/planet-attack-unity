@@ -36,6 +36,10 @@ namespace PlanetAttack
 
         public static void RandomizePlanetMaterials(MainPlanet mainPlanet) {
             PGSolidPlanet planet = mainPlanet.Planet.GetComponent<PGSolidPlanet>();
+            PlanetUtils.RandomizePlanetMaterials(planet);
+        }
+
+        public static void RandomizePlanetMaterials(PGSolidPlanet planet) {
             planet.planetMaterial.SetColor("_AtmosphereColor", new Color(Random.Range(0.7f, 1f), Random.Range(0.7f, 1f), Random.Range(0.5f, 1f), Random.Range(0f, 0.2f)));
             planet.planetMaterial.SetFloat("_SeaLevel", Random.Range(0f, 1f));
             planet.planetMaterial.SetColor("_SeaColor", new Color(Random.Range(0f, 0.1f), Random.Range(0.25f, 0.5f), Random.Range(0.5f, 0.8f)));
