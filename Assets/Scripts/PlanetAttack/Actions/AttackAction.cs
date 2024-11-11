@@ -19,8 +19,8 @@ public class AttackAction : InterplanetaryAction
         if(dstPlanet.Ships < 0) {
             // conquered!
             dstPlanet.Ships = Math.Abs(dstPlanet.Ships);
-            dstPlanet.PlanetOwner = srcPlanet.PlanetOwner;
-            dstPlanet.PlanetState = PlanetAttack.Enums.EPlanetState.OWNED;
+            dstPlanet.SetPlanetOwner(srcPlanet.PlanetOwner);
+            dstPlanet.SetPlanetState(PlanetAttack.Enums.EPlanetState.OWNED);
         }
     }
 }
