@@ -16,7 +16,7 @@ public class PlanetActions : MonoBehaviour
 
     public TheLabel DebugLabel;
 
-    private float dragDistanceThreshold = 0.1f;
+    private readonly float dragDistanceThreshold = 0.1f;
 
     // Start is called before the first frame update
     void Start()

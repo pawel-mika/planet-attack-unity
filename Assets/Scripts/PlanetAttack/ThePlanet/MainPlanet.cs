@@ -203,9 +203,9 @@ namespace PlanetAttack.ThePlanet
             TargetPlanetMarker.SetActive(false);
             TransferPlanetMarker.SetActive(false);
 
-            Ships = Random.Range(0, 128);
-            Minerals = Random.Range(0, 512);
-            Food = Random.Range(0, 512);
+            Ships = Random.Range(0, GameController.AILevel.MaxFreePlanetShips);
+            Minerals = Random.Range(0, 1024);
+            Food = Random.Range(0, 1024);
 
             ShipsBonus = Random.Range(1f, 3f); // get gameLevel into accout while calculating
             MineralsBonus = Random.Range(1f, 3f); // get gameLevel into accout while calculating

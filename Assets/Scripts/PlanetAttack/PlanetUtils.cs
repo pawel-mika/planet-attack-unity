@@ -61,6 +61,7 @@ namespace PlanetAttack
             objCollider.enabled = true;
 
             Collider[] touching = Physics.OverlapSphere(objCollider.bounds.center, objCollider.radius);
+            Debug.Log(string.Format("Check collision of {0} - bounds center: {1}, collider radius: {2}", obj.name, objCollider.bounds.center.ToShortString(), objCollider.radius));
             foreach (Collider touch in touching)
             {
                 //avoid detecting itself, detect only other planets (same gameobject type)

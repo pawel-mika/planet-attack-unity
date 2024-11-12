@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using PlanetAttack.AI;
 using PlanetAttack.Enums;
 using PlanetAttack.ThePlanet;
 using UnityEditor;
@@ -30,5 +31,7 @@ public class GameController
             Debug.Log(String.Format("Game state set to: {0}", Enum.GetName(typeof(EGameState), mGameState)));
         }
     }
+
+    public AILevel AILevel = AILevel.EASY;
 
 }

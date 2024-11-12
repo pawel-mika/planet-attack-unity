@@ -35,10 +35,12 @@ namespace PlanetAttack
         public static void RandomizeStartingPlanets() {
             List<MainPlanet> AllPlanets = PlanetUtils.GetAllThePlanets().ToList();
             int playerIdx = Random.Range(0, AllPlanets.Count());
+            AllPlanets[playerIdx].Ships = 128;
             AllPlanets[playerIdx].SetPlanetOwner(Enums.EPlayerType.PLAYER);
             AllPlanets[playerIdx].SetPlanetState(Enums.EPlanetState.OWNED);
             AllPlanets.RemoveAt(playerIdx);
             int enemyIdx = Random.Range(0, AllPlanets.Count());
+            AllPlanets[enemyIdx].Ships = 128;
             AllPlanets[enemyIdx].SetPlanetOwner(Enums.EPlayerType.ENEMY);
             AllPlanets[enemyIdx].SetPlanetState(Enums.EPlanetState.OWNED);
         }

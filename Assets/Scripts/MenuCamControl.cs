@@ -38,14 +38,18 @@ public class MenuCamControl : MonoBehaviour
             GameController.GameState = EGameState.TRANSITION_TO_MENU;
         }
 
-        if (travelling && Vector3.Distance(transform.position, currentMount.position) <= 0.005){
+        if (travelling && Vector3.Distance(transform.position, currentMount.position) <= 0.005)
+        {
             Debug.Log(String.Format("Target reached: {0}", currentMount.name));
-            if(GameController.GameState == EGameState.TRANSITION_TO_MENU) {
+            if (GameController.GameState == EGameState.TRANSITION_TO_MENU)
+            {
                 GameController.GameState = EGameState.IN_MENU;
-                Events.onGameStateChange.Invoke(new string[] {Events.evtGameInMenu});
-            } else if(GameController.GameState == EGameState.TRANSITION_TO_GAME) {
+                Events.onGameStateChange.Invoke(new string[] { Events.evtGameInMenu });
+            }
+            else if (GameController.GameState == EGameState.TRANSITION_TO_GAME)
+            {
                 GameController.GameState = EGameState.IN_GAME;
-                Events.onGameStateChange.Invoke(new string[] {Events.evtGameInGame});
+                Events.onGameStateChange.Invoke(new string[] { Events.evtGameInGame });
             }
             travelling = false;
         }
@@ -53,6 +57,7 @@ public class MenuCamControl : MonoBehaviour
 
     public void SetTransform(Transform transform)
     {
+        Debug.Log(string.Format("SetTransform to: {0}", transform.ToSafeString()));
         currentMount = transform;
         travelling = true;
         if (currentMount.gameObject.name.ContainsInsensitive("PlanetsBoardGuideCamera"))
