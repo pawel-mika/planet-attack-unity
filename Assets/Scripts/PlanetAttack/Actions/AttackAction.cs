@@ -15,12 +15,22 @@ public class AttackAction : InterplanetaryAction
 
     public override void FinalizeAction()
     {
-        dstPlanet.Ships -= ships;
-        if(dstPlanet.Ships < 0) {
+        if (dstPlanet.PlanetOwner != PlanetAttack.Enums.EPlayerType.PLAYER)
+        {
+            dstPlanet.Ships -= ships;
+        }
+        else
+        {
+            dstPlanet.Ships += ships;
+        }
+
+        if (dstPlanet.Ships < 0)
+        {
             // conquered!
             dstPlanet.Ships = Math.Abs(dstPlanet.Ships);
             dstPlanet.SetPlanetOwner(srcPlanet.PlanetOwner);
             dstPlanet.SetPlanetState(PlanetAttack.Enums.EPlanetState.OWNED);
+            dstPlanet.PlayExplosion();
         }
     }
 }

@@ -66,6 +66,8 @@ namespace PlanetAttack.ThePlanet
         public GameObject TargetPlanetMarker;
         public GameObject TransferPlanetMarker;
 
+        public GameObject Explosion;
+
         public TheLabel ShipsLabel;
         public TheLabel MineralsLabel;
         public TheLabel FoodLabel;
@@ -297,6 +299,13 @@ namespace PlanetAttack.ThePlanet
             {
                 lr.SetPositions(new List<Vector3>() { transform.position, transform.position }.ToArray());
             }
+        }
+
+        public void PlayExplosion()
+        {
+            // add param for owner to recolor explosion?
+            GameObject explosion = UnityEngine.Object.Instantiate(Explosion);
+            explosion.transform.position = transform.position;
         }
     }
 }

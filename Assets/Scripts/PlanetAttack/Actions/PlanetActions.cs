@@ -9,7 +9,6 @@ using UnityEngine;
 
 public class PlanetActions : MonoBehaviour
 {
-    private readonly GameController GameController = GameManager.GameController;
     private readonly PlanetsController PlanetsController = GameManager.PlanetsController;
     private readonly ActionsController ActionsController = GameManager.ActionsController;
 
@@ -114,7 +113,7 @@ public class PlanetActions : MonoBehaviour
     {
         MainPlanet mp = GetPlanetUnderCursor();
 
-        GameController.isDragging = true;
+        ActionsController.isDragging = true;
         ActionsController.dragTargetPoint = GetCurrentMousePositionInSpace();
 
         // we only want to set drag start etc for drag started on our owned/selected planet
@@ -145,7 +144,7 @@ public class PlanetActions : MonoBehaviour
             ClearDragOverPlanet();
         }
 
-        GameController.isDragging = false;
+        ActionsController.isDragging = false;
     }
 
     private void TestPlanetSelection()
@@ -153,7 +152,7 @@ public class PlanetActions : MonoBehaviour
         MainPlanet mp = GetPlanetUnderCursor();
         if (mp && mp.name == name)
         {
-            Debug.Log(String.Format("TestPlanetSelection: {0}, isDragging: {1}, dragOverPlanet: {2}", planet.name, GameController.isDragging, PlanetsController.dragOverPlanet));
+            Debug.Log(String.Format("TestPlanetSelection: {0}, isDragging: {1}, dragOverPlanet: {2}", planet.name, ActionsController.isDragging, PlanetsController.dragOverPlanet));
             if (Debug.isDebugBuild && Input.GetKey(KeyCode.LeftControl))
             {
                 planet.SetPlanetOwner(EPlayerType.PLAYER);

@@ -57,7 +57,7 @@ namespace PlanetAttack
             Camera camera = sceneCamObj.GetComponent<Camera>();
             float zMargin = 0;
             float z = camera.farClipPlane / 8;
-            int antiInfinityLoopCounter = 32;
+            int antiInfinityLoopCounter = 64;
             do
             {
                 Vector3 screenPosition = camera.ScreenToWorldPoint(

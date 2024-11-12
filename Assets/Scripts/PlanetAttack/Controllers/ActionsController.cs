@@ -20,7 +20,7 @@ public class ActionsController
     // Public static method to access the Singleton instance.
     public static ActionsController Instance => instance.Value;
 
-    // private LinkedList<InterplanetaryAction> ActionsStack = new();
+    public bool isDragging = false;
 
     public Vector3 mouseDownPoint;
     public Vector3 dragStartPoint;

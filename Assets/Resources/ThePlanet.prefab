@@ -58,6 +58,8 @@ MonoBehaviour:
   EnemyPlanetHalo: {fileID: 7595025225567386832}
   TargetPlanetMarker: {fileID: 1694077908070547484}
   TransferPlanetMarker: {fileID: 7278995437534864873}
+  Explosion: {fileID: 7904326230757190885, guid: e7d40c14c5a5746c6a7096e2cf30e59d,
+    type: 3}
   ShipsLabel: {fileID: 718627395693853471}
   MineralsLabel: {fileID: 3044020247536778271}
   FoodLabel: {fileID: 2556561784619671930}

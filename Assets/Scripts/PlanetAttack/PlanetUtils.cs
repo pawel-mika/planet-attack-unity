@@ -66,7 +66,7 @@ namespace PlanetAttack
                 //avoid detecting itself, detect only other planets (same gameobject type)
                 if (touch.gameObject != obj && touch.gameObject.GetType().Equals(obj.GetType()))
                 {
-                    // Debug.Log(string.Format("{0} touching {1}", obj.name, touch.gameObject.name));
+                    Debug.Log(string.Format("{0} touching {1}", obj.name, touch.gameObject.name));
                     return true;
                 }
             }

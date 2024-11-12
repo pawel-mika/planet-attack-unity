@@ -20,8 +20,6 @@ public class GameController
     // Public static method to access the Singleton instance.
     public static GameController Instance => instance.Value;
 
-    public bool isDragging = false;
-
     private EGameState mGameState = EGameState.UNKNOWN;
     public EGameState GameState
     {
