@@ -91,6 +91,9 @@ namespace PlanetAttack.ThePlanet
 
         public Vector3 DrawTarget;
 
+        [Header("Animation Settings")]
+        public float textureScrollSpeed = 0.25f;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -294,6 +297,9 @@ namespace PlanetAttack.ThePlanet
                 lr.SetPosition(0, transform.position);
                 lr.SetPosition(1, DrawTarget);
                 // Debug.Log(String.Format("Draw from {0} to {1} for {2}", transform.position, DrawTarget, name));
+
+                float offset = Time.time * textureScrollSpeed;
+                lr.material.SetTextureOffset("_MainTex", new Vector2(-offset, 0f));
             }
             else
             {

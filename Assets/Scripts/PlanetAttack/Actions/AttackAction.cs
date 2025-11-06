@@ -5,12 +5,17 @@ using Debug = UnityEngine.Debug;
 
 public class AttackAction : InterplanetaryAction
 {
-    private float ships = 0;
+    private readonly float ships = 0;
     public AttackAction(MainPlanet srcPlanet, MainPlanet dstPlanet, float speed = 2f) : base(srcPlanet, dstPlanet, speed)
     {
         Debug.Log(string.Format("AttackAction from {0} to {1}", srcPlanet.name, dstPlanet.name));
         ships = srcPlanet.Ships / 2;
         srcPlanet.Ships -= ships;
+    }
+
+    public float Ships
+    {
+        get { return ships; }
     }
 
     public override void FinalizeAction()

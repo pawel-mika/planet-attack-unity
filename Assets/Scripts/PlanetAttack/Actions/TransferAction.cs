@@ -9,6 +9,10 @@ public class TransferAction : InterplanetaryAction
     private float minerals = 0;
     private float ships = 0;
 
+    public float Food { get { return food; } }
+    public float Minerals { get { return minerals; } }
+    public float Ships { get { return ships; } }
+
     public TransferAction(MainPlanet srcPlanet, MainPlanet dstPlanet, float speed = 1.5f) : base(srcPlanet, dstPlanet, speed)
     {
         Debug.Log(string.Format("TransferAction from {0} to {1}", srcPlanet.name, dstPlanet.name));
