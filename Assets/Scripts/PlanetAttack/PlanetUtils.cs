@@ -36,6 +36,10 @@ namespace PlanetAttack
 
         public static void RandomizePlanetMaterials(MainPlanet mainPlanet) {
             PGSolidPlanet planet = mainPlanet.Planet.GetComponent<PGSolidPlanet>();
+            PlanetUtils.RandomizePlanetMaterials(planet);
+        }
+
+        public static void RandomizePlanetMaterials(PGSolidPlanet planet) {
             planet.planetMaterial.SetColor("_AtmosphereColor", new Color(Random.Range(0.7f, 1f), Random.Range(0.7f, 1f), Random.Range(0.5f, 1f), Random.Range(0f, 0.2f)));
             planet.planetMaterial.SetFloat("_SeaLevel", Random.Range(0f, 1f));
             planet.planetMaterial.SetColor("_SeaColor", new Color(Random.Range(0f, 0.1f), Random.Range(0.25f, 0.5f), Random.Range(0.5f, 0.8f)));
@@ -57,12 +61,13 @@ namespace PlanetAttack
             objCollider.enabled = true;
 
             Collider[] touching = Physics.OverlapSphere(objCollider.bounds.center, objCollider.radius);
+            Debug.Log(string.Format("Check collision of {0} - bounds center: {1}, collider radius: {2}", obj.name, objCollider.bounds.center.ToShortString(), objCollider.radius));
             foreach (Collider touch in touching)
             {
                 //avoid detecting itself, detect only other planets (same gameobject type)
                 if (touch.gameObject != obj && touch.gameObject.GetType().Equals(obj.GetType()))
                 {
-                    // Debug.Log(string.Format("{0} touching {1}", obj.name, touch.gameObject.name));
+                    Debug.Log(string.Format("{0} touching {1}", obj.name, touch.gameObject.name));
                     return true;
                 }
             }

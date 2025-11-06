@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using PlanetAttack.AI;
 using PlanetAttack.Enums;
 using PlanetAttack.ThePlanet;
 using UnityEditor;
@@ -20,8 +21,6 @@ public class GameController
     // Public static method to access the Singleton instance.
     public static GameController Instance => instance.Value;
 
-    public bool isDragging = false;
-
     private EGameState mGameState = EGameState.UNKNOWN;
     public EGameState GameState
     {
@@ -32,5 +31,7 @@ public class GameController
             Debug.Log(String.Format("Game state set to: {0}", Enum.GetName(typeof(EGameState), mGameState)));
         }
     }
+
+    public AILevel AILevel = AILevel.EASY;
 
 }
