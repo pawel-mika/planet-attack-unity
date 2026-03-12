@@ -32,7 +32,8 @@ namespace PlanetAttack
             }
         }
 
-        public static void RandomizeStartingPlanets() {
+        public static void RandomizeStartingPlanets()
+        {
             List<MainPlanet> AllPlanets = PlanetUtils.GetAllThePlanets().ToList();
             int playerIdx = Random.Range(0, AllPlanets.Count());
             AllPlanets[playerIdx].Ships = 128;
@@ -57,23 +58,32 @@ namespace PlanetAttack
         {
             GameObject sceneCamObj = GameObject.Find("PlanetsBoardGuideCamera");
             Camera camera = sceneCamObj.GetComponent<Camera>();
-            float zMargin = 0;
             float z = camera.farClipPlane / 8;
-            int antiInfinityLoopCounter = 64;
+            int attempts = 0;
+
             do
             {
                 Vector3 screenPosition = camera.ScreenToWorldPoint(
-                    new Vector3(Random.Range(0f, (float)Screen.width), Random.Range(0f, (float)Screen.height), Random.Range(z - zMargin, z + zMargin)));
+                    new Vector3(
+                        Random.Range(0f, Screen.width),
+                        Random.Range(0f, Screen.height),
+                        z
+                    )
+                );
+
                 planet.transform.position = screenPosition;
+
                 var scale = Random.Range(1.25f, 3f);
                 planet.transform.localScale = new Vector3(scale, scale, scale);
-                // planet.GetComponent<SphereCollider>().radius = (scale / 2) + 0.25f; //unwanted, collider too big...
-                antiInfinityLoopCounter--;
-            } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject) && antiInfinityLoopCounter > 0);
-            if (antiInfinityLoopCounter == 0)
+
+                attempts++;
+            } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject) && attempts < 64);
+
+            if (attempts >= 64)
             {
-                Debug.Log(String.Format("Giving up repositioning: {0}", planet.name));
+                Debug.Log($"Giving up repositioning: {planet.name}");
             }
+
         }
 
         public static void CleanupBoard()
