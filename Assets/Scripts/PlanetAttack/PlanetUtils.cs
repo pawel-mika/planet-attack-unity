@@ -10,13 +10,15 @@ namespace PlanetAttack
 {
     public class PlanetUtils
     {
-        private static PlanetsPool GetPlanetsPool() {
+        private static PlanetsPool GetPlanetsPool()
+        {
             GameObject mainMenu = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None).Where((o) => o.name == "MainMenu").ToArray()[0];
             PlanetsPool op = mainMenu.GetComponent<PlanetsPool>();
             return op;
         }
 
-        public static MainPlanet GeneratePlanetOld() {
+        public static MainPlanet GeneratePlanetOld()
+        {
             MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
             newPlanet.gameObject.SetActive(true);
             PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
@@ -26,7 +28,8 @@ namespace PlanetAttack
             return newPlanet;
         }
 
-        public static MainPlanet GeneratePlanet() {
+        public static MainPlanet GeneratePlanet()
+        {
             MainPlanet mp = GetPlanetsPool().GetPooledObject();
             mp.gameObject.SetActive(true);
             mp.InitEmptyPlanetState();
@@ -34,12 +37,14 @@ namespace PlanetAttack
             return mp;
         }
 
-        public static void RandomizePlanetMaterials(MainPlanet mainPlanet) {
+        public static void RandomizePlanetMaterials(MainPlanet mainPlanet)
+        {
             PGSolidPlanet planet = mainPlanet.Planet.GetComponent<PGSolidPlanet>();
             PlanetUtils.RandomizePlanetMaterials(planet);
         }
 
-        public static void RandomizePlanetMaterials(PGSolidPlanet planet) {
+        public static void RandomizePlanetMaterials(PGSolidPlanet planet)
+        {
             planet.planetMaterial.SetColor("_AtmosphereColor", new Color(Random.Range(0.7f, 1f), Random.Range(0.7f, 1f), Random.Range(0.5f, 1f), Random.Range(0f, 0.2f)));
             planet.planetMaterial.SetFloat("_SeaLevel", Random.Range(0f, 1f));
             planet.planetMaterial.SetColor("_SeaColor", new Color(Random.Range(0f, 0.1f), Random.Range(0.25f, 0.5f), Random.Range(0.5f, 0.8f)));
@@ -47,8 +52,10 @@ namespace PlanetAttack
             planet.planetMaterial.SetFloat("_MountainLevel", Random.Range(0f, 1f));
         }
 
-        public static void ReleasePlanetsToPool() {
-            foreach(MainPlanet mainPlanet in GetAllThePlanets()) {
+        public static void ReleasePlanetsToPool()
+        {
+            foreach (MainPlanet mainPlanet in GetAllThePlanets())
+            {
                 GetPlanetsPool().ReleaseObjectToPool(mainPlanet);
             }
         }
@@ -74,24 +81,34 @@ namespace PlanetAttack
             return false;
         }
 
-        public static IEnumerable<GameObject> GetAllPlanets(string name = "Solid Planet") {
+        public static IEnumerable<GameObject> GetAllPlanets(string name = "Solid Planet")
+        {
             return GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None).Where((o) => o.name.Contains(name));
         }
 
-        public static IEnumerable<MainPlanet> GetAllThePlanets(string name = "ThePlanet") {
+        public static IEnumerable<MainPlanet> GetAllThePlanets(string name = "ThePlanet")
+        {
             return GameObject.FindObjectsByType<MainPlanet>(FindObjectsSortMode.None).Where((o) => o.name.Contains(name));
         }
 
-        public static IEnumerable<MainPlanet> GetSelectedPlanets(EPlayerType owner) {
+        public static IEnumerable<MainPlanet> GetSelectedPlanets(EPlayerType owner)
+        {
             return GetAllThePlanets().Where((planet) => planet.PlanetOwner == owner && planet.PlanetState == EPlanetState.SELECTED);
         }
 
-        public static IEnumerable<MainPlanet> GetPotentialTargetMarkedPlanets() {
+        public static IEnumerable<MainPlanet> GetPotentialTargetMarkedPlanets()
+        {
             return GetPlanetsInState(EPlanetState.POTENTIAL_TARGET);
         }
 
-        public static IEnumerable<MainPlanet> GetPlanetsInState(EPlanetState state) {
+        public static IEnumerable<MainPlanet> GetPlanetsInState(EPlanetState state)
+        {
             return GetAllThePlanets().Where((planet) => planet.PlanetState == state);
+        }
+
+        public static IEnumerable<MainPlanet> GetPlanetsByOwner(EPlayerType owner)
+        {
+            return GetAllThePlanets().Where((planet) => planet.PlanetOwner == owner);
         }
     }
 }

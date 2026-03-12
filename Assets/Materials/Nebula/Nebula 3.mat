@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SCrollingBackground
-  m_Shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: Nebula 3
+  m_Shader: {fileID: 4800000, guid: 7f016535540769d4a87c8df232ca5597, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -61,6 +61,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha: 0.5
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -72,13 +75,27 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Power: 2
+    - _Radius: 0.3
+    - _Scale: 33
     - _SmoothnessTextureChannel: 0
+    - _Softness: 0.25
     - _SpecularHighlights: 1
+    - _Speed: 0.5
     - _SrcBlend: 1
     - _UVSec: 0
+    - _Warp: 0.15
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Center: {r: 0.75, g: 0.5, b: 0, a: 0}
+    - _Color: {r: 0.99999887, g: 0.99999887, b: 0.99999887, a: 0.99999887}
+    - _Color1: {r: 0.06159947, g: 1, b: 0, a: 0.57254905}
+    - _Color2: {r: 0.07826185, g: 0, b: 1, a: 0.8666667}
+    - _Color3: {r: 1, g: 0, b: 0.85507584, a: 0.8862745}
+    - _Color4: {r: 0, g: 1, b: 0.1847806, a: 0.8784314}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Scroll: {r: 0.0025, g: 0.0025, b: 0, a: 0}
+    - _Speed: {r: 0.05, g: 0.05, b: 0, a: 0}
+    - _TintColor: {r: 0.0768957, g: 0.27230775, b: 0.6037736, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

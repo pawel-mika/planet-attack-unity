@@ -1,6 +1,9 @@
 using System;
+using System.Net.NetworkInformation;
 using PlanetAttack.Enums;
 using Unity.VisualScripting;
+using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using Input = UnityEngine.Input;
 using Quaternion = UnityEngine.Quaternion;
@@ -31,11 +34,12 @@ public class MenuCamControl : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            GameObject go = GameObject.FindGameObjectWithTag("MainMenu");
-            SetTransform(go.transform);
-            Events.onGameStateChange.Invoke(new string[] { Events.evtGameEnd });
+            // GameObject go = GameObject.FindGameObjectWithTag("MainMenu");
+            // SetTransform(go.transform);
+            // Events.onGameStateChange.Invoke(new string[] { Events.evtGameEnd });
 
-            GameController.GameState = EGameState.TRANSITION_TO_MENU;
+            // GameController.GameState = EGameState.TRANSITION_TO_MENU;
+            EndGame();
         }
 
         if (travelling && Vector3.Distance(transform.position, currentMount.position) <= 0.005)
@@ -65,5 +69,14 @@ public class MenuCamControl : MonoBehaviour
             Events.onGameStateChange.Invoke(new string[] { Events.evtGameStart });
             GameController.GameState = EGameState.TRANSITION_TO_GAME;
         }
+    }
+
+    public static void EndGame()
+    {
+        GameObject go = GameObject.FindGameObjectWithTag("MainMenu");
+        GameObject cameraGuide = GameObject.Find("CameraGuide");
+        cameraGuide.GetComponent<MenuCamControl>().SetTransform(go.transform);
+        Events.onGameStateChange.Invoke(new string[] { Events.evtGameEnd });
+        GameController.Instance.GameState = EGameState.TRANSITION_TO_MENU;
     }
 }

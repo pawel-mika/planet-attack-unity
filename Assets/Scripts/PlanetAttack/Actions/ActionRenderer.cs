@@ -84,7 +84,7 @@ public class ActionRenderer : MonoBehaviour
         switch (action)
         {
             case AttackAction:
-                // IconShips.transform.position = IconMinerals.transform.position;
+                IconShips.transform.position = IconMinerals.transform.position;
                 IconMinerals.SetActive(false);
                 IconFood.SetActive(false);
                 LabelMineral.SetActive(false);

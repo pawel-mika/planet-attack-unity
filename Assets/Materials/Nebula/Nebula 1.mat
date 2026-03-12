@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Nebula 1
+  m_Shader: {fileID: 4800000, guid: 7f016535540769d4a87c8df232ca5597, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0.5
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Intensity1: 0.33
+    - _Intensity2: 0.33
+    - _Intensity3: 0.33
+    - _Metallic: 0
+    - _Mode: 0
+    - _NoiseScale: 3
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _Power: 2
+    - _Radius: 0.3
+    - _Radius1: 0.4
+    - _Radius2: 0.4
+    - _Radius3: 0.4
+    - _Scale: 50
+    - _SmoothnessTextureChannel: 0
+    - _Soft1: 0.3
+    - _Soft2: 0.3
+    - _Soft3: 0.3
+    - _Softness: 0.3
+    - _SpecularHighlights: 1
+    - _Speed: 0.5
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _Warp: 0.1
+    - _ZWrite: 1
+    m_Colors:
+    - _Center: {r: 0.75, g: 0.5, b: 0, a: 0}
+    - _Center1: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Center2: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Center3: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Color: {r: 0.99999887, g: 0.99999887, b: 0.99999887, a: 0.99999416}
+    - _Color1: {r: 0.02, g: 0.02, b: 0.09999997, a: 1}
+    - _Color2: {r: 0.044544343, g: 0.7264151, b: 0.16252707, a: 0.8156863}
+    - _Color3: {r: 0.14150941, g: 0.09011213, b: 0.13741024, a: 0.5529412}
+    - _Color4: {r: 0.104660034, g: 1, b: 0, a: 0.92156863}
+    - _ColorA1: {r: 0.6, g: 0.19999996, b: 1, a: 1}
+    - _ColorA2: {r: 1, g: 0.39999998, b: 0.19999996, a: 1}
+    - _ColorA3: {r: 0.19999996, g: 1, b: 0.6, a: 1}
+    - _ColorB1: {r: 0.19999996, g: 0.6, b: 1, a: 1}
+    - _ColorB2: {r: 1, g: 0.09999997, b: 0.5, a: 1}
+    - _ColorB3: {r: 0.09999997, g: 0.5, b: 0.29999998, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Scroll: {r: 0.002, g: 0.002, b: 0, a: 0}
+    - _Speed: {r: 0.05, g: 0.05, b: 0, a: 0}
+    - _TintColor: {r: 0.0768957, g: 0.27230775, b: 0.6037736, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

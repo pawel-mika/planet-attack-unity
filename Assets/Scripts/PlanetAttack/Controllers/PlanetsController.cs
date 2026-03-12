@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using PlanetAttack;
 using PlanetAttack.Enums;
 using PlanetAttack.ThePlanet;
@@ -45,5 +46,15 @@ public class PlanetsController
             }
         }
         return null;
+    }
+
+    public int GetPlayerOwnedPlanetsCount()
+    {
+        return PlanetUtils.GetPlanetsByOwner(EPlayerType.PLAYER).Count();
+    }
+
+    public int GetEnemyOwnedPlanetsCount()
+    {
+        return PlanetUtils.GetPlanetsByOwner(EPlayerType.ENEMY).Count();
     }
 }
