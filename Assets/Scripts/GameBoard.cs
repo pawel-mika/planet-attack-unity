@@ -54,13 +54,18 @@ public class GameBoard : MonoBehaviour
         if (PlanetsController.GetPlayerOwnedPlanetsCount() >= 1 && this.PlanetsController.GetEnemyOwnedPlanetsCount() == 0)
         {
             GameController.GameState = EGameState.GAME_OVER_PLAYER_WON;
-            MenuCamControl.EndGame();
+            Invoke(nameof(EndGameNow), 1.5f);
         }
         else if (PlanetsController.GetEnemyOwnedPlanetsCount() >= 1 && this.PlanetsController.GetPlayerOwnedPlanetsCount() == 0)
         {
             GameController.GameState = EGameState.GAME_OVER_ENEMY_WON;
-            MenuCamControl.EndGame();
+            Invoke(nameof(EndGameNow), 1.5f);
         }
+    }
+
+    void EndGameNow()
+    {
+        MenuCamControl.EndGame();
     }
 
 }

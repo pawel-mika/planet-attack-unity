@@ -17,16 +17,16 @@ namespace PlanetAttack
             return op;
         }
 
-        public static MainPlanet GeneratePlanetOld()
-        {
-            MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
-            newPlanet.gameObject.SetActive(true);
-            PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
-            planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
-            planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
-            RandomizePlanetMaterials(newPlanet);
-            return newPlanet;
-        }
+        // public static MainPlanet GeneratePlanetOld()
+        // {
+        //     MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
+        //     newPlanet.gameObject.SetActive(true);
+        //     PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
+        //     planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
+        //     planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
+        //     RandomizePlanetMaterials(newPlanet);
+        //     return newPlanet;
+        // }
 
         public static MainPlanet GeneratePlanet()
         {
@@ -63,21 +63,28 @@ namespace PlanetAttack
         public static bool CheckCollisionWithOtherPlanets(GameObject obj)
         {
             SphereCollider objCollider = obj.GetComponent<SphereCollider>();
-            // trick to align center of collider to center of planet
-            objCollider.enabled = false;
-            objCollider.enabled = true;
 
-            Collider[] touching = Physics.OverlapSphere(objCollider.bounds.center, objCollider.radius);
-            Debug.Log(string.Format("Check collision of {0} - bounds center: {1}, collider radius: {2}", obj.name, objCollider.bounds.center.ToShortString(), objCollider.radius));
-            foreach (Collider touch in touching)
+            Vector3 center = obj.transform.position;
+            float radius = objCollider.radius * obj.transform.lossyScale.x;
+
+            foreach (MainPlanet other in GetAllThePlanets())
             {
-                //avoid detecting itself, detect only other planets (same gameobject type)
-                if (touch.gameObject != obj && touch.gameObject.GetType().Equals(obj.GetType()))
+                if (other.gameObject == obj)
+                    continue;
+
+                SphereCollider otherCollider = other.GetComponent<SphereCollider>();
+
+                float otherRadius = otherCollider.radius * other.transform.lossyScale.x;
+
+                float minDistance = radius + otherRadius;
+
+                if (Vector3.Distance(center, other.transform.position) < minDistance)
                 {
-                    Debug.Log(string.Format("{0} touching {1}", obj.name, touch.gameObject.name));
+                    Debug.Log($"{obj.name} touching {other.name}");
                     return true;
                 }
             }
+
             return false;
         }
 
