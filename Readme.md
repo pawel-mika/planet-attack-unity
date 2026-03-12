@@ -15,10 +15,7 @@ The match ends when one side controls **all planets on the map**.
 
 ## Gameplay Video
 
-<video controls width="640" height="360">
-  <source src="Docs/Movie_001.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[Watch Gameplay Video](Docs/Movie_001.mp4)
 
 ---
 
