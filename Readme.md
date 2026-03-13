@@ -15,7 +15,7 @@ The match ends when one side controls **all planets on the map**.
 
 ## Gameplay Video
 
-[Watch Gameplay Video](Docs/Movie_001.mp4)
+[![See on YouTube](./Docs/screen.png)](https://www.youtube.com/shorts/I_3IEFElCBc)
 
 ---
 
