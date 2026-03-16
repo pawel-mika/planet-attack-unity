@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using PlanetAttack.ThePlanet;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PlanetAttack
 {
@@ -24,12 +25,10 @@ namespace PlanetAttack
             MainPlanet tmp;
             for (int i = 0; i < amountToPool; i++)
             {
-                // tmp = Instantiate(objectToPool);
                 tmp = GeneratePlanet();
                 tmp.name = tmp.name.Replace("(Clone)", "");
                 tmp.name += " " + i;
                 pooledPlanets.Add(tmp);
-                // tmp.gameObject.SetActive(false);
             }
         }
 
@@ -59,17 +58,21 @@ namespace PlanetAttack
 
         private MainPlanet GeneratePlanet()
         {
-            // MainPlanet newPlanet = Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
             MainPlanet newPlanet = Instantiate(objectToPool);
+
+            Scene inGameScene = SceneManager.GetSceneByName("InGame");
+            if (inGameScene.isLoaded)
+            {
+                SceneManager.MoveGameObjectToScene(newPlanet.gameObject, inGameScene);
+            }
+
             PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
             planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
 
-            planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
+            planet.RandomizePlanet(true);
             PlanetUtils.RandomizePlanetMaterials(newPlanet);
 
             newPlanet.gameObject.SetActive(true);
-
-            // move to separate layer for preload
             newPlanet.gameObject.layer = LayerMask.NameToLayer("Planets");
             StartCoroutine(DeactivateNextFrame(newPlanet));
 

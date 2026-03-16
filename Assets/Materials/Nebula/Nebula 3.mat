@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Nebula 3
-  m_Shader: {fileID: 4800000, guid: 7f016535540769d4a87c8df232ca5597, type: 3}
+  m_Shader: {fileID: 4800000, guid: ac7fdfba5e86744e9884ed74e8b6a4c3, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -76,7 +76,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Power: 2
-    - _Radius: 0.3
+    - _Radius: 0.25
     - _Scale: 33
     - _SmoothnessTextureChannel: 0
     - _Softness: 0.25

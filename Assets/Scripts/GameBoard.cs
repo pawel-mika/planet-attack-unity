@@ -29,14 +29,6 @@ public class GameBoard : MonoBehaviour
             GameManager.StartGame();
         }
 
-        // if (evt.Contains(Events.evtGameInGame))
-        // {
-        // GameBoardUtils.GeneratePlanets();
-        // GameBoardUtils.RandomizePlanetsInSpace();
-        // GameBoardUtils.InitializePlanetsState();
-        // GameBoardUtils.RandomizeStartingPlanets();
-        // }
-
         if (evt.Contains(Events.evtGameInMenu))
         {
             GameManager.EndGame();
@@ -51,7 +43,7 @@ public class GameBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameController.GameState == EGameState.IN_GAME)
+        if (gameController.GameState == EGameState.IN_GAME && !actionsController.GetAllActions().Any())
         {
             CheckWinCondition();
         }
