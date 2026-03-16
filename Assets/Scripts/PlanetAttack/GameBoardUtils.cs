@@ -1,17 +1,11 @@
-
 using UnityEngine;
 using PlanetAttack.ThePlanet;
-using UnityEditor;
-using System;
 using Random = UnityEngine.Random;
-using NUnit.Framework.Constraints;
-using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 
 namespace PlanetAttack
 {
-
     public class GameBoardUtils
     {
 
@@ -61,6 +55,10 @@ namespace PlanetAttack
             float z = camera.farClipPlane / 8;
             int attempts = 0;
 
+            // 1. Randomize the target scale that the planet should have AFTER the animation
+            float randomScale = Random.Range(1.5f, 3.5f);
+            Vector3 targetFinalScale = new Vector3(randomScale, randomScale, randomScale);
+
             do
             {
                 Vector3 screenPosition = camera.ScreenToWorldPoint(
@@ -73,9 +71,8 @@ namespace PlanetAttack
 
                 planet.transform.position = screenPosition;
 
-                var scale = Random.Range(1.25f, 3f);
-                planet.transform.localScale = new Vector3(scale, scale, scale);
-
+                // 2. Set the scale to the target scale ONLY for the purpose of collision checking
+                planet.transform.localScale = targetFinalScale;
                 attempts++;
             } while (PlanetUtils.CheckCollisionWithOtherPlanets(planet.gameObject) && attempts < 64);
 
@@ -84,6 +81,7 @@ namespace PlanetAttack
                 Debug.Log($"Giving up repositioning: {planet.name}");
             }
 
+            planet.transform.PopIn(planet, targetScale: targetFinalScale);
         }
 
         public static void CleanupBoard()

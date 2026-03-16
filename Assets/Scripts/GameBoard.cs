@@ -1,17 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using PlanetAttack;
 using PlanetAttack.Enums;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameBoard : MonoBehaviour
 {
-    private GameController GameController = GameManager.GameController;
-    private ActionsController ActionsController = GameManager.ActionsController;
-    private PlanetsController PlanetsController = GameManager.PlanetsController;
+    private GameController gameController = GameManager.GameController;
+    private ActionsController actionsController = GameManager.ActionsController;
+    private PlanetsController planetsController = GameManager.PlanetsController;
 
     void Start()
     {
@@ -22,28 +20,38 @@ public class GameBoard : MonoBehaviour
     {
         if (evt.Contains(Events.evtGameStart))
         {
-            if (GameController.GameState == EGameState.TRANSITION_TO_MENU)
+            if (gameController.GameState == EGameState.TRANSITION_TO_MENU)
             {
                 // prevent error of starting while still in transit
-                GameBoardUtils.CleanupBoard();
+                GameManager.EndGame();
             }
 
-            GameBoardUtils.GeneratePlanets();
-            GameBoardUtils.RandomizePlanetsInSpace();
-            GameBoardUtils.InitializePlanetsState();
-            GameBoardUtils.RandomizeStartingPlanets();
+            GameManager.StartGame();
         }
+
+        // if (evt.Contains(Events.evtGameInGame))
+        // {
+        // GameBoardUtils.GeneratePlanets();
+        // GameBoardUtils.RandomizePlanetsInSpace();
+        // GameBoardUtils.InitializePlanetsState();
+        // GameBoardUtils.RandomizeStartingPlanets();
+        // }
 
         if (evt.Contains(Events.evtGameInMenu))
         {
-            GameBoardUtils.CleanupBoard();
+            GameManager.EndGame();
+        }
+
+        if(evt.Contains(Events.evtGameEnd))
+        {
+            GameManager.EndGame();
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameController.GameState == EGameState.IN_GAME)
+        if (gameController.GameState == EGameState.IN_GAME)
         {
             CheckWinCondition();
         }
@@ -51,14 +59,14 @@ public class GameBoard : MonoBehaviour
 
     private void CheckWinCondition()
     {
-        if (PlanetsController.GetPlayerOwnedPlanetsCount() >= 1 && this.PlanetsController.GetEnemyOwnedPlanetsCount() == 0)
+        if (planetsController.GetPlayerOwnedPlanetsCount() >= 1 && this.planetsController.GetEnemyOwnedPlanetsCount() == 0)
         {
-            GameController.GameState = EGameState.GAME_OVER_PLAYER_WON;
+            gameController.GameState = EGameState.GAME_OVER_PLAYER_WON;
             Invoke(nameof(EndGameNow), 1.5f);
         }
-        else if (PlanetsController.GetEnemyOwnedPlanetsCount() >= 1 && this.PlanetsController.GetPlayerOwnedPlanetsCount() == 0)
+        else if (planetsController.GetEnemyOwnedPlanetsCount() >= 1 && this.planetsController.GetPlayerOwnedPlanetsCount() == 0)
         {
-            GameController.GameState = EGameState.GAME_OVER_ENEMY_WON;
+            gameController.GameState = EGameState.GAME_OVER_ENEMY_WON;
             Invoke(nameof(EndGameNow), 1.5f);
         }
     }

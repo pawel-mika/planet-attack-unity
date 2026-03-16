@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlanetAttack.ThePlanet;
 using System.Linq;
-using Unity.VisualScripting;
-using System.Net.NetworkInformation;
 using PlanetAttack.Enums;
 
 namespace PlanetAttack
@@ -17,30 +15,22 @@ namespace PlanetAttack
             return op;
         }
 
-        // public static MainPlanet GeneratePlanetOld()
-        // {
-        //     MainPlanet newPlanet = UnityEngine.Object.Instantiate(Resources.Load<MainPlanet>("ThePlanet"));
-        //     newPlanet.gameObject.SetActive(true);
-        //     PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
-        //     planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
-        //     planet.RandomizePlanet(true); // heavy op, let's do it just once here during generate time
-        //     RandomizePlanetMaterials(newPlanet);
-        //     return newPlanet;
-        // }
-
         public static MainPlanet GeneratePlanet()
         {
             MainPlanet mp = GetPlanetsPool().GetPooledObject();
+            mp.transform.localScale = Vector3.zero;
             mp.gameObject.SetActive(true);
+
             mp.InitEmptyPlanetState();
             RandomizePlanetMaterials(mp);
+
             return mp;
         }
 
         public static void RandomizePlanetMaterials(MainPlanet mainPlanet)
         {
             PGSolidPlanet planet = mainPlanet.Planet.GetComponent<PGSolidPlanet>();
-            PlanetUtils.RandomizePlanetMaterials(planet);
+            RandomizePlanetMaterials(planet);
         }
 
         public static void RandomizePlanetMaterials(PGSolidPlanet planet)
@@ -54,18 +44,28 @@ namespace PlanetAttack
 
         public static void ReleasePlanetsToPool()
         {
-            foreach (MainPlanet mainPlanet in GetAllThePlanets())
+            var planets = GetAllThePlanets();
+
+            foreach (MainPlanet mp in planets)
             {
-                GetPlanetsPool().ReleaseObjectToPool(mainPlanet);
+                mp.RunWithDelay(() =>
+                {
+                    mp.transform.PopOut(mp, duration: 0.25f, onComplete: () =>
+                    {
+                        GetPlanetsPool().ReleaseObjectToPool(mp);
+                    });
+                }, baseDelay: 0.25f, variance: 0.25f);
             }
         }
 
-        public static bool CheckCollisionWithOtherPlanets(GameObject obj)
+        public static bool CheckCollisionWithOtherPlanets(GameObject obj, float marginMultiplier = 1.5f)
         {
             SphereCollider objCollider = obj.GetComponent<SphereCollider>();
+            if (objCollider == null) return false;
 
             Vector3 center = obj.transform.position;
-            float radius = objCollider.radius * obj.transform.lossyScale.x;
+            // Calculate the radius considering the scale and margin
+            float radius = objCollider.radius * obj.transform.lossyScale.x * marginMultiplier;
 
             foreach (MainPlanet other in GetAllThePlanets())
             {
@@ -73,14 +73,21 @@ namespace PlanetAttack
                     continue;
 
                 SphereCollider otherCollider = other.GetComponent<SphereCollider>();
+                if (otherCollider == null) continue;
 
-                float otherRadius = otherCollider.radius * other.transform.lossyScale.x;
+                // Radius of the second planet (also with a margin, so they don't enter their "safe zones")
+                float otherRadius = otherCollider.radius * other.transform.lossyScale.x * marginMultiplier;
 
                 float minDistance = radius + otherRadius;
 
-                if (Vector3.Distance(center, other.transform.position) < minDistance)
+                // Optimization: compare squared distances instead of Vector3.Distance
+                Vector3 diff = center - other.transform.position;
+                float sqrDistance = diff.sqrMagnitude;
+                float sqrMinDistance = minDistance * minDistance;
+
+                if (sqrDistance < sqrMinDistance)
                 {
-                    Debug.Log($"{obj.name} touching {other.name}");
+                    // Debug.Log($"{obj.name} in the safe zone of {other.name}");
                     return true;
                 }
             }
