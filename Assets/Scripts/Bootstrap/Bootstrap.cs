@@ -41,49 +41,40 @@ public class Bootstrap : MonoBehaviour
 
     private async Task LoadInitialScene()
     {
-        Debug.Log("Starting robust loader...");
         loadingPanel.SetActive(true);
         _visualProgress = 0f;
 
         AsyncOperation op = SceneManager.LoadSceneAsync(gameSceneName, LoadSceneMode.Additive);
-
-        // CRITICAL: This prevents the 'InGame' scene from starting until we are ready
         op.allowSceneActivation = false;
 
-        while (_visualProgress < 1f)
+        while (_visualProgress < 0.99f) // Loop until visually almost full
         {
-            // Unity progress goes 0 -> 0.9. We normalize it.
-            float targetProgress = op.progress / 0.9f;
+            float targetProgress = Mathf.Clamp01(op.progress / 0.9f);
 
-            // Smooth progress bar movement
-            _visualProgress = Mathf.MoveTowards(_visualProgress, targetProgress, Time.deltaTime * smoothSpeed);
+            // Easing logic: 5f is the speed multiplier.
+            // Higher value = faster initial movement.
+            _visualProgress = Mathf.Lerp(_visualProgress, targetProgress, Time.deltaTime * 5f);
 
             if (fillImage != null) fillImage.fillAmount = _visualProgress;
-            if (progressText != null) progressText.text = $"Loading: {Mathf.RoundToInt(_visualProgress * 100)}%";
+            if (progressText != null) progressText.text = $"{Mathf.RoundToInt(_visualProgress * 100)}%";
 
-            // When visual bar is at 100%, we allow Unity to finish the activation
-            if (_visualProgress >= 0.99f)
+            // Allow scene to activate when progress is high enough
+            if (_visualProgress >= 0.95f && op.progress >= 0.9f)
             {
                 op.allowSceneActivation = true;
             }
 
-            // Break loop only when scene is truly activated and done
-            if (op.isDone) break;
+            if (op.isDone && _visualProgress >= 0.98f) break;
 
             await Task.Yield();
         }
 
-        // Double check if scene is loaded before setting active
-        Scene loadedScene = SceneManager.GetSceneByName(gameSceneName);
-        if (loadedScene.isLoaded)
-        {
-            SceneManager.SetActiveScene(loadedScene);
-        }
+        // Final snap to 100%
+        _visualProgress = 1f;
+        if (fillImage != null) fillImage.fillAmount = 1f;
+        if (progressText != null) progressText.text = "100%";
 
-        Debug.Log("Loading finished. Hiding panel.");
-
-        // Optional: Add a small Fade Out here instead of just SetActive(false)
-        // await Task.Delay(500);
+        // Set Active Scene logic...
         loadingPanel.SetActive(false);
     }
 }
