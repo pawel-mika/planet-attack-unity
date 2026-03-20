@@ -6,10 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Bootstrap.unity
+    guid: bd21657ea07434fafaef8c0b31f2fd58
+  - enabled: 1
     path: Assets/Scenes/InGame.unity
     guid: c850ee8c3b14cc8459e7e186857cf567
   m_configObjects:
-    com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: 1b7318ad414ce034abb68752de9b8ddd,
+    com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: 7117cfc4ce5864a3f8da2ec1e4b43c75,
       type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 6304d1867df43c8469bf01a80e066d04,
       type: 2}

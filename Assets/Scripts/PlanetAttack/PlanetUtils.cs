@@ -35,11 +35,22 @@ namespace PlanetAttack
 
         public static void RandomizePlanetMaterials(PGSolidPlanet planet)
         {
-            planet.planetMaterial.SetColor("_AtmosphereColor", new Color(Random.Range(0.7f, 1f), Random.Range(0.7f, 1f), Random.Range(0.5f, 1f), Random.Range(0f, 0.2f)));
-            planet.planetMaterial.SetFloat("_SeaLevel", Random.Range(0f, 1f));
-            planet.planetMaterial.SetColor("_SeaColor", new Color(Random.Range(0f, 0.1f), Random.Range(0.25f, 0.5f), Random.Range(0.5f, 0.8f)));
-            planet.planetMaterial.SetColor("_LandColor", new Color(Random.Range(0f, 0.25f), Random.Range(0.2f, 0.5f), Random.Range(0.0f, 0.2f)));
-            planet.planetMaterial.SetFloat("_MountainLevel", Random.Range(0f, 1f));
+            // 1. Get the Renderer component (the one that actually draws the planet)
+            Renderer renderer = planet.GetComponent<Renderer>();
+            if (renderer == null) return;
+
+            // 2. Create or get a PropertyBlock
+            MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
+
+            // 3. Set all the random values into the block instead of the material
+            propBlock.SetColor("_AtmosphereColor", new Color(Random.Range(0.7f, 1f), Random.Range(0.7f, 1f), Random.Range(0.5f, 1f), Random.Range(0f, 0.2f)));
+            propBlock.SetFloat("_SeaLevel", Random.Range(0f, 1f));
+            propBlock.SetColor("_SeaColor", new Color(Random.Range(0f, 0.1f), Random.Range(0.25f, 0.5f), Random.Range(0.5f, 0.8f)));
+            propBlock.SetColor("_LandColor", new Color(Random.Range(0f, 0.25f), Random.Range(0.2f, 0.5f), Random.Range(0.0f, 0.2f)));
+            propBlock.SetFloat("_MountainLevel", Random.Range(0f, 1f));
+
+            // 4. Push these properties to the GPU for THIS specific renderer only
+            renderer.SetPropertyBlock(propBlock);
         }
 
         public static void ReleasePlanetsToPool()

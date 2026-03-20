@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using PlanetAttack.ThePlanet;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -59,11 +60,16 @@ public class ActionsController
         }
     }
 
+    public List<InterplanetaryAction> GetAllActions()
+    {
+        ActionRenderer[] actions = GetAllActionRenderers();
+        return actions.Select(ar => ar.action).ToList();
+    }
+
     // in case of end game or going back to menu, we need to clear all the actions from the board, otherwise they will be rendered on top of the menu and look weird
     public void KillAllActions()
     {
-        ActionRenderer[] actions = UnityEngine.Object.FindObjectsByType<ActionRenderer>(FindObjectsSortMode.None);
-        foreach (ActionRenderer ar in actions)
+        foreach (ActionRenderer ar in GetAllActionRenderers())
         {
             UnityEngine.Object.Destroy(ar.gameObject);
         }
@@ -76,4 +82,7 @@ public class ActionsController
         ar.transform.position = action.GetDstPlanet().transform.position;
         ar.action = action;
     }
+
+    private ActionRenderer[] GetAllActionRenderers() => UnityEngine.Object.FindObjectsByType<ActionRenderer>(FindObjectsSortMode.None);
+
 }
