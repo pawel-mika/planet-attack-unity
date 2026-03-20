@@ -56,6 +56,9 @@ namespace PlanetAttack
             }
         }
 
+        // 1. Add this field to your class to store the base material
+        private Material _sharedBasePlanetMaterial;
+
         private MainPlanet GeneratePlanet()
         {
             MainPlanet newPlanet = Instantiate(objectToPool);
@@ -67,7 +70,16 @@ namespace PlanetAttack
             }
 
             PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
-            planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
+            // 2. Load the shader once and reuse the material
+            if (_sharedBasePlanetMaterial == null)
+            {
+                _sharedBasePlanetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
+                // IMPORTANT: Enable GPU Instancing on the material
+                _sharedBasePlanetMaterial.enableInstancing = true;
+            }
+
+            // Assign the shared material instead of 'new Material'
+            planet.planetMaterial = _sharedBasePlanetMaterial;
 
             planet.RandomizePlanet(true);
             PlanetUtils.RandomizePlanetMaterials(newPlanet);
@@ -78,6 +90,29 @@ namespace PlanetAttack
 
             return newPlanet;
         }
+
+        // private MainPlanet GeneratePlanet()
+        // {
+        //     MainPlanet newPlanet = Instantiate(objectToPool);
+
+        //     Scene inGameScene = SceneManager.GetSceneByName("InGame");
+        //     if (inGameScene.isLoaded)
+        //     {
+        //         SceneManager.MoveGameObjectToScene(newPlanet.gameObject, inGameScene);
+        //     }
+
+        //     PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
+        //     planet.planetMaterial = new Material(Shader.Find("Zololgo/PlanetGen | Planet/Standard Solid Planet"));
+
+        //     planet.RandomizePlanet(true);
+        //     PlanetUtils.RandomizePlanetMaterials(newPlanet);
+
+        //     newPlanet.gameObject.SetActive(true);
+        //     newPlanet.gameObject.layer = LayerMask.NameToLayer("Planets");
+        //     StartCoroutine(DeactivateNextFrame(newPlanet));
+
+        //     return newPlanet;
+        // }
 
         // Deactivate after one frame
         private IEnumerator DeactivateNextFrame(MainPlanet planet)
