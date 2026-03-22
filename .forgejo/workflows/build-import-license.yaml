@@ -1,4 +1,4 @@
-name: Unity Build
+name: Unity Build Import License
 on: workflow_dispatch
 
 jobs:
@@ -6,13 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: unityci/editor:ubuntu-6000.3.11f1-android-3.2.2
-    
+
     steps:
       - name: Install Node.js
         run: |
           apt-get update
           apt-get install -y nodejs
-          
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -24,7 +24,7 @@ jobs:
           mkdir -p /root/.local/share/unity3d/Unity/
           # Wrzucamy zawartość sekretu do pliku
           echo "$UNITY_LICENSE" | tr -d '\r' > /root/.local/share/unity3d/Unity/Unity_lic.ulf
-          
+
           # Odpalamy Unity, żeby sprawdzić czy licencja działa
           unity-editor \
             -logFile /dev/stdout \

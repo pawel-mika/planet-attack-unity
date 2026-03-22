@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public class Bootstrap : MonoBehaviour
@@ -13,6 +14,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private GameObject loadingPanel;
     [SerializeField] private Image fillImage;
     [SerializeField] private TextMeshProUGUI progressText;
+    [SerializeField] private TextMeshProUGUI buildText;
 
     [Header("Settings")]
     [SerializeField] private float smoothSpeed = 0.5f;
@@ -34,6 +36,16 @@ public class Bootstrap : MonoBehaviour
         // Set everything to zero at start
         if (fillImage != null) fillImage.fillAmount = 0f;
         if (progressText != null) progressText.text = "0%";
+
+        if(buildText != null)
+        {
+            BuildData buildData = Resources.Load<BuildData>("BuildData");
+            if (buildData != null)
+            {
+                List<string> buildInfo = new List<string> { buildData.buildNumber, buildData.commitSha, buildData.buildDate };
+                buildText.text = $"Build: {string.Join(", ", buildInfo)}";
+            }
+        }
 
         // Start the loading process
         await LoadInitialScene();
