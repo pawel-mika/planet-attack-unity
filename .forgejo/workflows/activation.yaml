@@ -6,18 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: unityci/editor:ubuntu-6000.3.11f1-android-3.2.2
-      options: --add-host=forgejo.host:host-gateway
-    
-    env:
-      GITEA_STUB: "true" # Opcjonalne, zależy od wersji runnera
-      ACTIONS_RUNTIME_URL: http://forgejo.host:3000/
-      
     steps:
       - name: Install dependencies
         run: |
           apt-get update
           apt-get install -y nodejs git
-          git config --global url."http://forgejo.host:3000/".insteadOf "http://192.168.1.250:3000/"
 
       - name: Checkout
         uses: actions/checkout@v3
