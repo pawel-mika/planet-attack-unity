@@ -1,0 +1,52 @@
+name: Build Android
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: unityci/editor:ubuntu-6000.3.11f1-android-3.2.2
+
+    steps:
+      # 1. Required dependencies for GitHub/Forgejo Actions
+      - name: Install Node.js
+        run: |
+          apt-get update
+          apt-get install -y nodejs
+
+      # 2. Pull the latest code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 3. Handle Unity license and execute the build script
+      - name: Build Android APK
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        run: |
+          # Ensure the license directory exists
+          mkdir -p /root/.local/share/unity3d/Unity/
+
+          # Inject the license from Forgejo Secrets and strip Windows line endings
+          echo "$UNITY_LICENSE" | tr -d '\r' > /root/.local/share/unity3d/Unity/Unity_lic.ulf
+
+          # Extract short commit SHA
+          SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-7)
+
+          # Execute the C# BuildScript.PerformBuild method
+          unity-editor \
+            -logFile /dev/stdout \
+            -batchmode \
+            -nographics \
+            -projectPath . \
+            -executeMethod BuildScript.PerformBuild \
+            -buildNumber "${{ github.run_number }}" \
+            -commitSha "$SHORT_SHA" \
+            -quit
+
+      # 4. Save the generated APK as a downloadable artifact
+      - name: Upload APK
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: PlanetAttack-Android-v${{ github.run_number }}
+          path: build/Android/*.apk
