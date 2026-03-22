@@ -8,6 +8,11 @@ jobs:
       image: unityci/editor:ubuntu-6000.3.11f1-android-3.2.2
     
     steps:
+      - name: Install Node.js
+        run: |
+          apt-get update
+          apt-get install -y nodejs
+          
       - name: Checkout code
         uses: actions/checkout@v3
 
