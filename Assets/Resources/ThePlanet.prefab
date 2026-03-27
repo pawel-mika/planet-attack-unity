@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7375942369359052478}
   - component: {fileID: 266663388144198967}
-  - component: {fileID: 7680252959305931361}
   - component: {fileID: 7416500668787197312}
   - component: {fileID: 8408005831091079539}
+  - component: {fileID: 1446045288484386556}
+  - component: {fileID: 8606567235682193813}
   m_Layer: 16
   m_Name: ThePlanet
   m_TagString: Untagged
@@ -53,36 +54,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af76e222d40b049648e91b6f7dd8ffc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Planet: {fileID: 5644629634929562629}
-  PlayerPlanetHalo: {fileID: 7428890350082067759}
-  EnemyPlanetHalo: {fileID: 7595025225567386832}
-  TargetPlanetMarker: {fileID: 1694077908070547484}
-  TransferPlanetMarker: {fileID: 7278995437534864873}
-  Explosion: {fileID: 7904326230757190885, guid: e7d40c14c5a5746c6a7096e2cf30e59d,
-    type: 3}
+  Settings: {fileID: 11400000, guid: 9e47567f642b8445887f9326e08b06c1, type: 2}
   ShipsLabel: {fileID: 718627395693853471}
   MineralsLabel: {fileID: 3044020247536778271}
   FoodLabel: {fileID: 2556561784619671930}
   DebugLabel: {fileID: 111733934140536147}
-  period: 1
-  PlanetState: 0
-  PlanetOwner: 0
   DrawTarget: {x: 0, y: 0, z: 0}
-  textureScrollSpeed: 0.25
---- !u!114 &7680252959305931361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359836463145336503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beb2b4097ba68214d96c02d6818013cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planet: {fileID: 266663388144198967}
-  DebugLabel: {fileID: 7231116713997823893}
 --- !u!135 &7416500668787197312
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -223,6 +200,37 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &1446045288484386556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359836463145336503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d0040c9b70140e4958ba110460ebd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlanetAttack.ThePlanet.PlanetProduction
+--- !u!114 &8606567235682193813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359836463145336503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9a54f18ff5e5400790b46ce32bcd20d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlanetAttack.ThePlanet.PlanetVisuals
+  Planet: {fileID: 5644629634929562629}
+  PlayerPlanetHalo: {fileID: 7428890350082067759}
+  EnemyPlanetHalo: {fileID: 7595025225567386832}
+  TargetPlanetMarker: {fileID: 1694077908070547484}
+  TransferPlanetMarker: {fileID: 7278995437534864873}
+  Explosion: {fileID: 7904326230757190885, guid: e7d40c14c5a5746c6a7096e2cf30e59d,
+    type: 3}
 --- !u!1 &5644629634929562629
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,6 +433,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3563051809003813661, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
+      propertyPath: m_overflowMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563051809003813661, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
       objectReference: {fileID: 0}
@@ -574,6 +587,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563051809003813661, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_overflowMode
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3563051809003813661, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
@@ -806,6 +824,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563051809003813661, guid: 88d57d94fb04a44739e049289a8bd7ae,
+        type: 3}
+      propertyPath: m_overflowMode
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3563051809003813661, guid: 88d57d94fb04a44739e049289a8bd7ae,
         type: 3}
@@ -1790,15 +1813,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6880328865010569094}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7231116713997823893 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4260898863451774995, guid: 88d57d94fb04a44739e049289a8bd7ae,
-    type: 3}
-  m_PrefabInstance: {fileID: 6880328865010569094}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a21aeebef0b8348629e99db9316291e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

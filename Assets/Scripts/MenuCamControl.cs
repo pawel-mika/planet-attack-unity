@@ -31,11 +31,6 @@ public class MenuCamControl : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // GameObject go = GameObject.FindGameObjectWithTag("MainMenu");
-            // SetTransform(go.transform);
-            // Events.onGameStateChange.Invoke(new string[] { Events.evtGameEnd });
-
-            // GameController.GameState = EGameState.TRANSITION_TO_MENU;
             EndGame();
         }
 
@@ -66,6 +61,13 @@ public class MenuCamControl : MonoBehaviour
             Events.onGameStateChange.Invoke(new string[] { Events.evtGameStart });
             GameController.GameState = EGameState.TRANSITION_TO_GAME;
         }
+    }
+
+    public static void StartGame()
+    {
+        GameObject go = GameObject.Find("PlanetsBoardGuideCamera");
+        GameObject cameraGuide = GameObject.Find("CameraGuide");
+        cameraGuide.GetComponent<MenuCamControl>().SetTransform(go.transform);
     }
 
     public static void EndGame()

@@ -31,16 +31,16 @@ public class ActionsController
     /// NEEDS to be called in proper moment - just after the mouse pointer has been released but before next update
     /// that will clean some board elements to their default states (?)
     /// </summary>
-    public void CreateActionFromCurrentState(LinkedList<MainPlanet> sourcePlanets, MainPlanet targetPlanet)
+    public void CreateActionFromCurrentState(List<MainPlanet> sourcePlanets, MainPlanet targetPlanet)
     {
         Debug.Log(string.Format("Create action"));
 
-        if (sourcePlanets.First == null || !sourcePlanets.First.Value || targetPlanet == null)
+        if (sourcePlanets.FirstOrDefault() == null || targetPlanet == null)
         {
             return;
         }
 
-        if (targetPlanet.PlanetOwner == sourcePlanets.First.Value.PlanetOwner)
+        if (targetPlanet.PlanetOwner == sourcePlanets.First().PlanetOwner)
         {
             // fransfer action
             foreach (MainPlanet mp in sourcePlanets)

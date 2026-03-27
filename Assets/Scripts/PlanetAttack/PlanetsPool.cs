@@ -69,7 +69,8 @@ namespace PlanetAttack
                 SceneManager.MoveGameObjectToScene(newPlanet.gameObject, inGameScene);
             }
 
-            PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
+            PGSolidPlanet planet = newPlanet.GetComponentInChildren<PGSolidPlanet>();
+            // PGSolidPlanet planet = newPlanet.Planet.GetComponent<PGSolidPlanet>();
             // 2. Load the shader once and reuse the material
             if (_sharedBasePlanetMaterial == null)
             {

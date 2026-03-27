@@ -11,22 +11,28 @@ namespace PlanetAttack.ThePlanet
     {
         // public icon
 
-        public string LabelText = "543210";
+        public string LabelText
+        {
+            get => _labelText;
+            set
+            {
+                _labelText = value;
+                if (textMeshPro != null)
+                {
+                    textMeshPro.text = _labelText;
+                }
+            }
+        }
+        private string _labelText = "0";
 
         private TextMeshProUGUI textMeshPro;
 
         public GameObject Label;
 
-        // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
-            textMeshPro = this.Label.GetComponent<TextMeshProUGUI>();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            textMeshPro.text = LabelText;
+            textMeshPro = Label.GetComponent<TextMeshProUGUI>();
+            textMeshPro.text = _labelText;
         }
     }
 }

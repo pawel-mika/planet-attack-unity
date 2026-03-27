@@ -29,8 +29,9 @@ namespace PlanetAttack
 
         public static void RandomizePlanetMaterials(MainPlanet mainPlanet)
         {
-            PGSolidPlanet planet = mainPlanet.Planet.GetComponent<PGSolidPlanet>();
-            RandomizePlanetMaterials(planet);
+            // PGSolidPlanet planet = mainPlanet.Planet.GetComponent<PGSolidPlanet>();
+            PGSolidPlanet pg = mainPlanet.GetComponentInChildren<PGSolidPlanet>();
+            RandomizePlanetMaterials(pg);
         }
 
         public static void RandomizePlanetMaterials(PGSolidPlanet planet)

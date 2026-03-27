@@ -34,9 +34,6 @@ public class ActionRenderer : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         SetupActionType();
 
-        // WAŻNE: Wymuś utworzenie instancji materiału,
-        // aby animacja działała tylko na tej linii, a nie na innych liniach
-        // używających tego samego materiału.
         if (lineRenderer.material != null)
         {
             lineRenderer.material = new Material(lineRenderer.material);
@@ -58,15 +55,8 @@ public class ActionRenderer : MonoBehaviour
             FinishAction();
         }
 
-        // ------------------
-        // NOWA LOGIKA: ANIMACJA MATERIAŁU
-        // ------------------
-        // 1. Oblicz offset. Używamy Time.time * scrollSpeed, by uzyskać ciągły ruch.
         float offset = Time.time * textureScrollSpeed;
 
-        // 2. Ustaw offset na materiale LineRenderer.
-        // Używamy "_MainTex" jako nazwy głównej tekstury.
-        // Przesunięcie na osi Y (V) jest standardowe dla przesuwania wzdłuż linii.
         lineRenderer.material.SetTextureOffset("_MainTex", new Vector2(offset, 0f));
     }
 

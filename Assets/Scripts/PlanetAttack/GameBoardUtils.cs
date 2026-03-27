@@ -28,16 +28,18 @@ namespace PlanetAttack
 
         public static void RandomizeStartingPlanets()
         {
-            List<MainPlanet> AllPlanets = PlanetUtils.GetAllThePlanets().ToList();
-            int playerIdx = Random.Range(0, AllPlanets.Count());
-            AllPlanets[playerIdx].Ships = 128;
-            AllPlanets[playerIdx].SetPlanetOwner(Enums.EPlayerType.PLAYER);
-            AllPlanets[playerIdx].SetPlanetState(Enums.EPlanetState.OWNED);
-            AllPlanets.RemoveAt(playerIdx);
-            int enemyIdx = Random.Range(0, AllPlanets.Count());
-            AllPlanets[enemyIdx].Ships = 128;
-            AllPlanets[enemyIdx].SetPlanetOwner(Enums.EPlayerType.ENEMY);
-            AllPlanets[enemyIdx].SetPlanetState(Enums.EPlanetState.OWNED);
+            List<MainPlanet> allPlanets = PlanetUtils.GetAllThePlanets().ToList();
+            int playerIdx = Random.Range(0, allPlanets.Count());
+            allPlanets[playerIdx].Ships = 1000;
+            allPlanets[playerIdx].PlayExplosion(); // TODO: Remove after explosion on planet set is gone
+            allPlanets[playerIdx].SetPlanetOwner(Enums.EPlayerType.PLAYER);
+            allPlanets[playerIdx].SetPlanetState(Enums.EPlanetState.OWNED);
+            allPlanets.RemoveAt(playerIdx);
+            int enemyIdx = Random.Range(0, allPlanets.Count());
+            allPlanets[enemyIdx].Ships = 100;
+            allPlanets[enemyIdx].PlayExplosion(); // TODO: Remove after explosion on planet set is gone
+            allPlanets[enemyIdx].SetPlanetOwner(Enums.EPlayerType.ENEMY);
+            allPlanets[enemyIdx].SetPlanetState(Enums.EPlanetState.OWNED);
         }
 
         public static void InitializePlanetsState()
